@@ -1,0 +1,3 @@
+Id,HourRangeShow,TimeToShow,Repeat,Title,Body,RandomAble
+1,"7,22","02,00,00",None,Random,Random,TRUE
+daily_reward,"7,22","02,00,00",None,daily_reward,daily_reward,FALSE

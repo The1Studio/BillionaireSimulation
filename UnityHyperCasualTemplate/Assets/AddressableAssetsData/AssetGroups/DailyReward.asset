@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: DailyReward
+  m_EditorClassIdentifier: 
+  m_GroupName: DailyReward
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 8a2e85b43e0cc2e44b5827ffaea1b2d5
+  m_SerializeEntries: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: eee19707acf4bf14fb469d64e7fb846a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 57bf3b0f50ebb5a4f9edfd046425a96f, type: 2}
+    - {fileID: 11400000, guid: ced3c020e955e1848971f266aa1e8b28, type: 2}

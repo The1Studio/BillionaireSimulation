@@ -1,0 +1,8 @@
+Day,Reward,RewardImage,Position,Size
+1,Coin: 1000,reward_img1,,
+2,item2:1,reward_img2,,
+3,Coin: 2000,reward_img3,0|-160,150|150
+4,Coin: 4000,reward_img4,,
+5,Coin: 5000,reward_img5,,
+6,"Coin: 6000,item1:1",reward_img6,,
+7,"item4:1,item5:1",reward_img7,,150|150
