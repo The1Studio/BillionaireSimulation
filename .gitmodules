@@ -1,12 +1,12 @@
-[submodule "UnityHyperCasualTemplate/Packages/com.gdk.core"]
-	path = UnityHyperCasualTemplate/Packages/com.gdk.core
-	url = git@github.com:GameDevelopmentKit/GameFoundation.git
-[submodule "UnityHyperCasualTemplate/Assets/UITemplate"]
-	path = UnityHyperCasualTemplate/Assets/UITemplate
-	url = git@github.com:The1Studio/UITemplate.git
-[submodule "UnityHyperCasualTemplate/Packages/com.gdk.3rd"]
-	path = UnityHyperCasualTemplate/Packages/com.gdk.3rd
-	url = git@github.com:GameDevelopmentKit/ThirdPartyServices.git
 [submodule "JenkinsScripts"]
 	path = JenkinsScripts
 	url = git@github.com:The1Studio/JenkinsScripts.git
+[submodule "UnityBillionaireSimulation/Packages/com.gdk.core"]
+	path = UnityBillionaireSimulation/Packages/com.gdk.core
+	url = git@github.com:GameDevelopmentKit/GameFoundation.git
+[submodule "UnityBillionaireSimulation/Assets/UITemplate"]
+	path = UnityBillionaireSimulation/Assets/UITemplate
+	url = git@github.com:The1Studio/UITemplate.git
+[submodule "UnityBillionaireSimulation/Packages/com.gdk.3rd"]
+	path = UnityBillionaireSimulation/Packages/com.gdk.3rd
+	url = git@github.com:GameDevelopmentKit/ThirdPartyServices.git
