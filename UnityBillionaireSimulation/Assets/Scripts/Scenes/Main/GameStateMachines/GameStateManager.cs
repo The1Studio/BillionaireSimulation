@@ -22,7 +22,8 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines
         PickAction,
         FollowerShowOff,
         DelayInterval,
-        MergeMoney
+        MergeMoney,
+        Leaderboard
     }
 
     public class GameStateManager : StateMachine, IInitializable, IDisposable
