@@ -130,8 +130,12 @@
             var firstSlotData  = itemObject.gameObject.GetComponent<SlotItem>().slotController.MoneySlotData;
             var secondSlotData = this.slotController.MoneySlotData;
             var nextMoneyId    = this.currencyBlueprint[firstSlotData.MoneyId].MergeUpTo;
-            if (firstSlotData.MoneyId!= secondSlotData.MoneyId || nextMoneyId==null)
+            if (firstSlotData.MoneyId!= secondSlotData.MoneyId || string.IsNullOrEmpty(nextMoneyId))
             {
+                if (string.IsNullOrEmpty(nextMoneyId))
+                {
+                   //make money fly 
+                }
                 this.SetItemReturnBack();
                 return;
             }
