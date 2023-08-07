@@ -1,2 +1,2 @@
-Level,Name,PrefabAsset,SegmentIdToTimelineIndex
-1,Day 1,lv1,"gcn:1,mg1:2"
+Level,Name,PrefabAsset,ListSegment
+1,Day 1,lv1,"MergeGameSegment,sg2,sg3"

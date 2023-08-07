@@ -1,0 +1,3 @@
+CurrencyId,Value,PrefabName,MergeUpTo
+Coin_1,1,Coin_1,Coin_2
+Coin_2,3,Coin_2,

@@ -31,7 +31,6 @@
         {
             base.OnViewReady();
             this.InitHeaderScreenView();
-            this.InitGameStateMachine();
         }
 
         private void InitHeaderScreenView()
@@ -40,7 +39,6 @@
             this.headerScreenPresenter.SetView(this.View.headerScreenView);
             this.headerScreenPresenter.BindData(new HeaderScreenModel());
         }
-
-        private void InitGameStateMachine() { this.gameStateManager.ProcessFirstSegment(); }
+        
     }
 }

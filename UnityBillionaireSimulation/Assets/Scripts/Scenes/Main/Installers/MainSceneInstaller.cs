@@ -49,13 +49,14 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.Installers
             this.Container.DeclareSignal<CountFollowerSignal>();
             this.Container.DeclareSignal<ChangeStatusSignal>();
             this.Container.DeclareSignal<FinishCutSceneSignal>();
+            this.Container.DeclareSignal<ChangeToNextSegmentSignal>();
         }
 
         private void BindOther()
         {
             this.Container.Bind<LevelResult>().AsCached().NonLazy();
             this.Container.BindInterfacesAndSelfTo<PlayerInputSystem>().AsCached().NonLazy();
-            this.Container.Bind<MapLevelSystem>().AsCached().NonLazy();
+            this.Container.BindInterfacesAndSelfTo<GenerateMapLevelSystem>().AsCached().NonLazy();
             this.Container.Bind<SegmentBlueprintHelper>().AsCached();
         }
     }

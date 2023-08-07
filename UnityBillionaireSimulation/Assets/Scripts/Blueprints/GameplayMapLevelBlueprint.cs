@@ -13,9 +13,9 @@ namespace TheOneStudio.HyperCasual.Blueprints
 
     public class GameplayMapLevelRecord
     {
-        public int                      Level;
-        public string                   Name;
-        public string                   PrefabAsset;
-        public List<Tuple<string, int>> SegmentIdToTimelineIndex;
+        public int          Level;
+        public string       Name;
+        public string       PrefabAsset;
+        public List<string> ListSegment;
     }
 }
