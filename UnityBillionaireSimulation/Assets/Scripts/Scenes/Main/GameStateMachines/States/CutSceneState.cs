@@ -16,6 +16,7 @@
         public override void Enter()
         {
             base.Enter();
+            this.ScreenHandler.CloseAllScreen();
             this.SignalBus.Subscribe<FinishCutSceneSignal>(this.OnFinishCutScene);
         }
 
