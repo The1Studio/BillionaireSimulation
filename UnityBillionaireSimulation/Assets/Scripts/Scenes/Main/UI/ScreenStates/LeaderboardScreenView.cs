@@ -14,17 +14,17 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
         public Button btnOk;
     }
     
-    public class LeaderboardScreenData
+    public class LeaderboardScreenModel
     {
         public Action OnOkClicked;
     }
     
     [ScreenInfo(nameof(LeaderboardScreenView))]
-    public class LeaderboardScreenPresenter : UITemplateBaseScreenPresenter<LeaderboardScreenView, LeaderboardScreenData>
+    public class LeaderboardScreenPresenter : UITemplateBaseScreenPresenter<LeaderboardScreenView, LeaderboardScreenModel>
     {
         public LeaderboardScreenPresenter(SignalBus signalBus, ILogService logService) : base(signalBus, logService) { }
 
-        public override UniTask BindData(LeaderboardScreenData popupModel) { return UniTask.CompletedTask; }
+        public override UniTask BindData(LeaderboardScreenModel popupModel) { return UniTask.CompletedTask; }
 
         protected override void OnViewReady()
         {

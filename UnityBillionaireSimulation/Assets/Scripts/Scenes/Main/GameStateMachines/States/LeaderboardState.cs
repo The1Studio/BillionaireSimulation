@@ -17,7 +17,7 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines.States
 
         public override async void Enter()
         {
-            await this.ScreenHandler.OpenScreen<LeaderboardScreenPresenter, LeaderboardScreenData>(new LeaderboardScreenData()
+            await this.ScreenHandler.OpenScreen<LeaderboardScreenPresenter, LeaderboardScreenModel>(new LeaderboardScreenModel()
             {
                 OnOkClicked = this.OnLeaderboardOkClicked
             });
