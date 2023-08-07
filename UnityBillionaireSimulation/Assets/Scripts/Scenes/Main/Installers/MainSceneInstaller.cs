@@ -49,6 +49,7 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.Installers
             this.Container.DeclareSignal<CountFollowerSignal>();
             this.Container.DeclareSignal<ChangeStatusSignal>();
             this.Container.DeclareSignal<FinishCutSceneSignal>();
+            this.Container.DeclareSignal<UpdateMoneyInSlotSignal>();
         }
 
         private void BindOther()

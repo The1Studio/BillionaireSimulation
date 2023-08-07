@@ -4,6 +4,7 @@
     using TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines.BaseState;
     using TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines.Signals;
     using TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates;
+    using TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates.MergeMoney;
     using Zenject;
 
     public class MergeMoneyState : BaseGameState
@@ -13,8 +14,10 @@
 
         public MergeMoneyState(ScreenHandler screenHandler, SignalBus signalBus) : base(screenHandler, signalBus) { }
 
-        public override void Enter()
+        public override async void Enter()
         {
+            this.ScreenHandler.CloseAllScreen();
+            await this.ScreenHandler.OpenScreen<MergeMoneyScreenPresenter>();
             base.Enter();
         }
 
