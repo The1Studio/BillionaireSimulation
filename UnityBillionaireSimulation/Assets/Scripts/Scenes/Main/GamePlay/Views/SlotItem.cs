@@ -108,6 +108,11 @@
         #region UpdateViewAndData
         private void UpdateItemToNewSlot(GameObject slotObject)
         {
+            if (!slotObject.GetComponent<SlotController>().MoneySlotData.IsEmpty)
+            {
+                this.SetItemReturnBack();
+                return;
+            }
             slotObject.GetComponent<SlotController>().OverrideMoneyData(this.slotController.MoneySlotData);
             slotObject.GetComponent<SlotController>().SetupSlotView();
             this.slotController.ResetSlot();
@@ -132,10 +137,6 @@
             var nextMoneyId    = this.currencyBlueprint[firstSlotData.MoneyId].MergeUpTo;
             if (firstSlotData.MoneyId!= secondSlotData.MoneyId || string.IsNullOrEmpty(nextMoneyId))
             {
-                if (string.IsNullOrEmpty(nextMoneyId))
-                {
-                   //make money fly 
-                }
                 this.SetItemReturnBack();
                 return;
             }

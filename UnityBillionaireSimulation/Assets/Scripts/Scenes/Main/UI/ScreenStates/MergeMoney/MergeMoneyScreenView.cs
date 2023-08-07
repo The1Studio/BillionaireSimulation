@@ -10,12 +10,16 @@
     using Sirenix.Utilities;
     using TheOneStudio.HyperCasual.Blueprints;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Views;
+    using UnityEngine;
+    using UnityEngine.UI;
     using Zenject;
     using Random = UnityEngine.Random;
 
     public class MergeMoneyScreenView : BaseView
     {
         public List<SlotController> listSlotControllers = new();
+        public Image                energyFill;
+        public GameObject           spaceShip;
     }
 
     [ScreenInfo(nameof(MergeMoneyScreenView))]
@@ -41,11 +45,18 @@
             listMoneySelected.AddRange(this.SplitMoney("Coin_4", firstExpectNumber));
             listMoneySelected.AddRange(this.SplitMoney("Coin_4", 9-firstExpectNumber>=2? Random.Range(2,9-firstExpectNumber+1):0));
             listMoneySelected.Shuffle();
+            //init empty slot
+            for (var i = 0; i < this.View.listSlotControllers.Count; i++)
+            {
+                this.View.listSlotControllers[i].MoneySlotData = new MoneySlotData() { MoneyId = null, SlotIndex = i, SlotStatus = SlotStatus.Empty };
+            }
+            //load data to slot
             for (var i = 0; i < listMoneySelected.Count; i++)
             {
                 this.View.listSlotControllers[i].MoneySlotData = new MoneySlotData() { MoneyId = listMoneySelected[i], SlotIndex = i, SlotStatus = SlotStatus.CanMerge };
                 this.View.listSlotControllers[i].SetupSlotView();
             }
+            
         }
 
         private List<string> SplitMoney(string moneyId, int expectNumber)
