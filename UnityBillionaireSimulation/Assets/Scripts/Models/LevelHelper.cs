@@ -3,6 +3,7 @@
     using System.Linq;
     using TheOneStudio.HyperCasual.Blueprints;
     using TheOneStudio.UITemplate.UITemplate.Models.Controllers;
+    using UnityEngine;
 
     public class LevelHelper
     {
@@ -18,6 +19,12 @@
         }
 
         public GameplayMapLevelRecord GetMapLevelRecordByLevel(int level) { return this.gameplayMapLevelBlueprint.Values.FirstOrDefault(record => record.Level == level); }
-        public GameplayMapLevelRecord GetMapLevelRecordByLevel()          { return this.GetMapLevelRecordByLevel(this.levelDataController.CurrentLevel); }
+
+        public GameplayMapLevelRecord GetMapLevelRecordByLevel()
+        {
+            var maxLevel = this.gameplayMapLevelBlueprint.Values.Max(record => record.Level);
+            var level    = Mathf.Min(this.levelDataController.CurrentLevel , maxLevel);
+            return this.GetMapLevelRecordByLevel(level);
+        }
     }
 }

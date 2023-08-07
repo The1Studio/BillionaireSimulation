@@ -26,11 +26,13 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Systems
         private readonly UITemplateItemBlueprint   uiTemplateItemBlueprint;
         private readonly IGameAssets               gameAssets;
         private readonly DiContainer               container;
+        private readonly LevelHelper               levelHelper;
 
         #endregion
 
         public MapLevelSystem(ILogService logService, UserLocalData userLocalData, GameplayMapLevelBlueprint mapLevelBlueprint,
-            CharacterDataController characterDataController, UITemplateItemBlueprint uiTemplateItemBlueprint, IGameAssets gameAssets, DiContainer container)
+            CharacterDataController characterDataController, UITemplateItemBlueprint uiTemplateItemBlueprint, IGameAssets gameAssets, DiContainer container,
+            LevelHelper levelHelper)
         {
             this.logService              = logService;
             this.userLocalData           = userLocalData;
@@ -39,14 +41,15 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Systems
             this.uiTemplateItemBlueprint = uiTemplateItemBlueprint;
             this.gameAssets              = gameAssets;
             this.container               = container;
+            this.levelHelper             = levelHelper;
         }
 
-        public async UniTask Generate(int level)
+        public async UniTask Generate()
         {
-            this.logService.Log("Generate Map " + level);
             this.DestroyOldMapData();
 
-            var gameplayMapLevelRecord = this.mapLevelBlueprint.GetDataById(level);
+            var gameplayMapLevelRecord = this.levelHelper.GetMapLevelRecordByLevel();
+            this.logService.Log("Generate Map " + gameplayMapLevelRecord.Level);
 
             var prefab        = await this.gameAssets.LoadAssetAsync<GameObject>(gameplayMapLevelRecord.PrefabAsset);
             var gameObject    = Object.Instantiate(prefab);
