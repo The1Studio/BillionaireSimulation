@@ -24,6 +24,10 @@
         private          Vector3           currentPos;
         private          Image             image;
         public           TextMeshProUGUI   moneyValue;
+
+        public           Vector3           offsetLeft  = new Vector3(90f, 70f, 0);
+        public           Vector3           offsetRight = new Vector3(-90f, 70f, 0);
+        public           Vector3           offsetTop   = new Vector3(0, 70f, 0);
         [Inject] private EventSystem       eventSystem;
         [Inject] private IGameAssets       gameAssets;
         [Inject] private SignalBus         signalBus;
@@ -141,12 +145,12 @@
             });
         }
 
-        public void DoMerge(GameObject firstItem, GameObject secondItem, MoneySlotData newSlotData, Action onCompleteAction)
+        private void DoMerge(GameObject firstItem, GameObject secondItem, MoneySlotData newSlotData, Action onCompleteAction)
         {
             var      position       = firstItem.transform.position;
-            var      firstPos       = position + new Vector3(0.7f, 0.5f, 0);
-            var      secondPos      = position + new Vector3(-0.7f, 0.5f, 0);
-            var      finalPos       = position + new Vector3(0, 0.5f, 0);
+            var      firstPos       = position + this.offsetLeft;
+            var      secondPos      = position + this.offsetRight;
+            var      finalPos       = position + this.offsetTop;
             Sequence sequence       = DOTween.Sequence();
             Sequence secondSequence = DOTween.Sequence();
             sequence.Join(firstItem.transform.DOMove(firstPos, 0.4f)).SetEase(Ease.OutQuad);
