@@ -20,7 +20,6 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines
         GiveCharacterName,
         CutScene,
         PickAction,
-        FollowerShowOff,
         DelayInterval,
         MergeMoney,
         Leaderboard
@@ -102,8 +101,8 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines
             this.CurrentStateIndex++;
             if (this.CurrentStateIndex == 0)
             {
-                this.SegmentIdToTimelineIndex = currentMapLevelRecord.SegmentIdToTimelineIndex;
-                await this.mapLevelSystem.Generate(this.levelDataController.CurrentLevel);
+                this.SegmentIdToTimelineIndex = currentMapLevelRecord.SegmentIdToTimelineIndex.ToList(); //To list to avoid change original list
+                await this.mapLevelSystem.Generate();
             }
             else if (this.CurrentStateIndex >= this.SegmentIdToTimelineIndex.Count)
             {
