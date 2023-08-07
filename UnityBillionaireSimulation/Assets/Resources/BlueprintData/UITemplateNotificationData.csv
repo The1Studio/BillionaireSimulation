@@ -1,12 +1,12 @@
 Id,Title,Body,RandomAble
-1,{0} is waiting for you!,The opponent is waiting for you,TRUE
-2,Let's fight with opponents,Join the race now🏃,TRUE
-3,Race Now🏃,{0} is calling!📞,TRUE
-4,🔥Hurry up!!!,,TRUE
-5,Come back to {0},,TRUE
-6,Let's fight with opponents,,TRUE
-7,Race Now,,TRUE
-8,🎉IMMEDIATELY,,TRUE
-9,COME ON🙌,,TRUE
-10,Let's have fun😄,,TRUE
-daily_reward,Let's claim your daily reward 🔥,,FALSE
+1,{0} is waiting for you! 😺,It's time to play with your {0}! {0} need you!,TRUE
+2,Hurry up!!!,Your {0} is very hungry! Help it!,TRUE
+3,{0} is missing you!😘,{0} is waitting for you! Play now! ??,TRUE
+4,Come back to {0},{0} - Angel or devil? It's your choice! 😇 😈,TRUE
+5,COME ON,{0} is ready to be an angel! 😇,TRUE
+6,Please stop!,Your {0} is doing bad things! Stop it! 😈,TRUE
+7,Let's test! 🤔,Do you really understand your {0}? 😇 😈,TRUE
+8,Wow! You're here!,Wellcome to {0}: Pet Simulator 3D! Let's have fun with your {0}!,TRUE
+9,Your {0} need a house!,What will you build it for {0}? ,TRUE
+10,Let's have fun,Time to unwind and relax with your {0} 😺,TRUE
+daily_reward,Let's claim your daily reward ,,FALSE

@@ -1,0 +1,6 @@
+Id,GameStateType,PickActionType,ChoiceId,UnlockByAds,Score,ImageAsset,Content,NextSegmentIdToTimelineIndex
+pa1,PickAction,Horizontal,1,FALSE,10,avt_normal,,
+,,,2,TRUE,50,avt_shit,,
+,,,3,TRUE,50,avt_beauty,,
+pa2,PickAction,Vertical,1,FALSE,10,,I promise to be the best president,
+,,,2,FALSE,20,,I promise to be a dictator,

@@ -32,8 +32,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 57c7d64b579a34841bf20975abbea869
-    m_Address: HomeSimpleScreenView
+  - m_GUID: 936ac8e4a516e4645af3e11109bd3b77
+    m_Address: GameplayScreenView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1cd638369e8c9f643b995fd2d35fb910
+    m_Address: GiveCharacterNameScreenView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d09cdc0b86d83f64f8c3c212e172ce43
+    m_Address: PickActionScreenView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
