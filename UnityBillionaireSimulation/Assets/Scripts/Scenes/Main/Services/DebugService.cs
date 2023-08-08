@@ -5,13 +5,15 @@
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using QFSW.QC;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Signals;
+    using TheOneStudio.UITemplate.UITemplate.Models.Controllers;
     using UnityEngine;
     using Zenject;
 
     public class DebugService : MonoBehaviour
     {
-        [Inject] private ObjectPoolManager objectPoolManager;
-        [Inject] private SignalBus         signalBus;
+        [Inject] private ObjectPoolManager               objectPoolManager;
+        [Inject] private SignalBus                       signalBus;
+        [Inject] private UITemplateSettingDataController settingDataController;
         private void Start()
         {
             this.GetCurrentContainer().Inject(this);
@@ -30,5 +32,13 @@
         {
             this.signalBus.Fire(new ReRandomMoneySignal());
         }
+
+        [Command("vi",MonoTargetType.Single)]
+        public void TurnOnOffVibration()
+        {
+            this.settingDataController.SetVibrationOnOff();
+        }
+        
+        
     }
 }
