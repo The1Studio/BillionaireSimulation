@@ -20,7 +20,8 @@
     "3rdCore.Analytic",
     "3rdCore.Ads",
     "UniRx",
-    "NVJOBNameGenerator"
+    "NVJOBNameGenerator",
+    "OSA.Core"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

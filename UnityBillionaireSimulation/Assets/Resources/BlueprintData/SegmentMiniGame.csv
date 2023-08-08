@@ -2,3 +2,4 @@ Id,GameStateType
 gcn,GiveCharacterName
 cs,CutScene
 mg1,MergeMoney
+ld,Leaderboard
