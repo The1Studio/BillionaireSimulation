@@ -1,6 +1,6 @@
-﻿namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
+﻿namespace TheOneStudio.HyperCasual.Scenes.Main.UI.LeaderBoard
 {
-   using DG.Tweening;
+    using DG.Tweening;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.MVP;
     using TMPro;

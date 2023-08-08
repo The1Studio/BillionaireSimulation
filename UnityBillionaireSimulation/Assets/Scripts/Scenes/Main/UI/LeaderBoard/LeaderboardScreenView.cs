@@ -14,6 +14,7 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
     using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using TheOneStudio.HyperCasual.Scenes.Main.UI.LeaderBoard;
     using TheOneStudio.UITemplate.UITemplate.Models.Controllers;
     using TheOneStudio.UITemplate.UITemplate.Scenes.Utils;
     using TheOneStudio.UITemplate.UITemplate.Services;
