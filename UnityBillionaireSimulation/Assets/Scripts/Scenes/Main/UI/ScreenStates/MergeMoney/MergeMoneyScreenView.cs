@@ -9,6 +9,8 @@
     using GameFoundation.Scripts.Utilities;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using GameFoundation.Scripts.Utilities.Utils;
+    using Mono.CSharp;
+    using QFSW.QC;
     using TheOneStudio.HyperCasual.Blueprints;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Signals;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Views;
@@ -62,7 +64,7 @@
             this.View.energyObject.transform.localPosition = Vector3.zero;
             var     width   = this.View.mergeField.GetComponent<RectTransform>().rect.width;
             var     height  = this.View.mergeField.GetComponent<RectTransform>().rect.height;
-            Vector2 newSize = new Vector2(width / 3f, height /4f);
+            Vector2 newSize = new Vector2(width / 3f, height /3f);
             this.View.mergeField.GetComponent<GridLayoutGroup>().cellSize = newSize;
         }
 
@@ -124,6 +126,12 @@
                 this.SignalBus.Fire(new CompleteMergeGameSignal());
                 this.View.energyObject.SetActive(false);
             };
+        }
+
+        [Command("clear-data", MonoTargetType.All)]
+        public void ClearAllData()
+        {
+            Debug.Log("dmmmm");
         }
 
         private void LoadRandomMoneyDataToListSlot()
