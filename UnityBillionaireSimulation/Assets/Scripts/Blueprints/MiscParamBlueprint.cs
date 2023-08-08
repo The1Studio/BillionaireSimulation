@@ -14,7 +14,7 @@
         public string CompleteMergeSound   { get; set; }
 
         public string VfxCompleteMerge { get; set; }
-
-        public string FuelSound { get; set; }
+        public string FuelSound        { get; set; }
+        public long   RankingScore     { get; set; }
     }
 }
