@@ -13,7 +13,7 @@
     {
     }
 
-    public class HeaderScreenView : BaseView
+    public class HeaderScreenView : TViewMono
     {
         public Button          btnSetting;
         public TextMeshProUGUI txtTitle;
