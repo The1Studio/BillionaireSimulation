@@ -31,12 +31,15 @@
         public void RandomMoney()
         {
             this.signalBus.Fire(new ReRandomMoneySignal());
+            Debug.Log("Random money!");
         }
 
         [Command("vi",MonoTargetType.Single)]
         public void TurnOnOffVibration()
         {
             this.settingDataController.SetVibrationOnOff();
+            var message = this.settingDataController.IsVibrationOn ? "Vibration is turn on" : "Vibration is turn off";
+            Debug.Log(message);
         }
         
         
