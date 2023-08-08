@@ -165,10 +165,9 @@
             secondSequence.Join(firstItem.transform.DOMove(finalPos, 0.25f)).SetEase(Ease.OutQuad);
             secondSequence.Join(secondItem.transform.DOMove(finalPos, 0.25f)).SetEase(Ease.OutQuad);
             sequence.Append(secondSequence);
-            
+            this.audioService.PlaySound(this.miscParamBlueprint.MergeSound);
             sequence.onComplete += () =>
             {
-                this.audioService.PlaySound(this.miscParamBlueprint.MergeSound);
                 firstItem.GetComponent<SlotItem>().UpdateData(newSlotData);
                 secondItem.gameObject.SetActive(false);
                 firstItem.transform.DOMove(position, 0.2f).SetEase(Ease.OutQuad).onComplete += () =>
