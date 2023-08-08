@@ -7,6 +7,7 @@
     using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using GameFoundation.Scripts.Utilities;
     using GameFoundation.Scripts.Utilities.Utils;
     using Sirenix.Utilities;
     using TheOneStudio.HyperCasual.Blueprints;
@@ -39,10 +40,12 @@
         private          CurrencyBlueprint  currencyBlueprint;
         private          int                targetMoney;
         private          int                currentMoney = 0;
-        public MergeMoneyScreenPresenter(SignalBus signalBus, MiscParamBlueprint miscParamBlueprint, CurrencyBlueprint currencyBlueprint) : base(signalBus)
+        private readonly IAudioService      audioService;
+        public MergeMoneyScreenPresenter(SignalBus signalBus, MiscParamBlueprint miscParamBlueprint, CurrencyBlueprint currencyBlueprint,IAudioService audioService) : base(signalBus)
         {
             this.miscParamBlueprint = miscParamBlueprint;
             this.currencyBlueprint  = currencyBlueprint;
+            this.audioService       = audioService;
         }
         public override UniTask BindData()
         {
@@ -79,6 +82,7 @@
             sequence.Append(slotItemTransform.DOMove(this.View.misPos.transform.position, 0.4f).SetEase(Ease.OutQuad));
             sequence.Join(slotItemTransform.DOScale(new Vector3(2, 2, 2), 0.4f).SetEase(Ease.OutQuad));
             sequence.AppendInterval(0.7f);
+            this.audioService.PlaySound(this.miscParamBlueprint.CompleteMergeSound);
             sequence.Append(slotItemTransform.DOJump(this.View.energyFill.transform.position, 5f, 1, 0.5f));
             sequence.Join(slotItemTransform.DOScale(new Vector3(0.3f, 0.3f, 0.3f), 0.5f).SetEase(Ease.OutQuad));
             sequence.onComplete += () =>
@@ -103,6 +107,7 @@
             sequence.Append(this.View.energyObject.transform.DOJump(this.View.spaceShip.transform.position, 7, 1, 0.7f).SetEase(Ease.OutQuad));
             sequence.onComplete += () =>
             {
+                this.audioService.PlaySound(this.miscParamBlueprint.CompleteMergeSound);
                 this.SignalBus.Fire(new CompleteMergeGameSignal());
                 this.View.energyObject.SetActive(false);
             };
