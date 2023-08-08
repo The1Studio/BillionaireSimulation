@@ -7,6 +7,7 @@
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using GameFoundation.Scripts.AssetLibrary;
+    using GameFoundation.Scripts.Utilities;
     using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using TheOneStudio.HyperCasual.Blueprints;
@@ -25,14 +26,16 @@
         private          Image             image;
         public           TextMeshProUGUI   moneyValue;
 
-        public           Vector3           offsetLeft  = new Vector3(90f, 70f, 0);
-        public           Vector3           offsetRight = new Vector3(-90f, 70f, 0);
-        public           Vector3           offsetTop   = new Vector3(0, 70f, 0);
-        [Inject] private EventSystem       eventSystem;
-        [Inject] private IGameAssets       gameAssets;
-        [Inject] private SignalBus         signalBus;
-        [Inject] private ObjectPoolManager objectPoolManager;
-        [Inject] private CurrencyBlueprint currencyBlueprint;
+        public                    Vector3            offsetLeft  = new Vector3(90f, 70f, 0);
+        public                    Vector3            offsetRight = new Vector3(-90f, 70f, 0);
+        public                    Vector3            offsetTop   = new Vector3(0, 70f, 0);
+        [Inject] private          EventSystem        eventSystem;
+        [Inject] private          IGameAssets        gameAssets;
+        [Inject] private          SignalBus          signalBus;
+        [Inject] private          ObjectPoolManager  objectPoolManager;
+        [Inject] private          CurrencyBlueprint  currencyBlueprint;
+        [Inject] private readonly IAudioService      audioService;
+        [Inject] private readonly MiscParamBlueprint miscParamBlueprint;
 
         private PointerEventData pointerEventData;
         public  Transform        topPos;
@@ -165,6 +168,7 @@
             
             sequence.onComplete += () =>
             {
+                this.audioService.PlaySound(this.miscParamBlueprint.MergeSound);
                 firstItem.GetComponent<SlotItem>().UpdateData(newSlotData);
                 secondItem.gameObject.SetActive(false);
                 firstItem.transform.DOMove(position, 0.2f).SetEase(Ease.OutQuad).onComplete += () =>
