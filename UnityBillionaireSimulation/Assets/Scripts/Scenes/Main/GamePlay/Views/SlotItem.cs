@@ -71,12 +71,12 @@
             };
 
             EventSystem.current.RaycastAll(this.pointerEventData, results);
-            var itemSlot = results.FirstOrDefault(e => e.gameObject.CompareTag("Slot")).gameObject;
-            if (itemSlot == null)
+            if (!results.Any(e => e.gameObject.CompareTag("Slot")))
             {
                 this.SetItemReturnBack();
                 return;
             }
+            var itemSlot = results.FirstOrDefault(e => e.gameObject.CompareTag("Slot")).gameObject;
             this.HandleLogicItemSlot(itemSlot);
             
         }
@@ -135,7 +135,7 @@
             var firstSlotData  = itemObject.gameObject.GetComponent<SlotItem>().slotController.MoneySlotData;
             var secondSlotData = this.slotController.MoneySlotData;
             var nextMoneyId    = this.currencyBlueprint[firstSlotData.MoneyId].MergeUpTo;
-            if (firstSlotData.MoneyId!= secondSlotData.MoneyId || string.IsNullOrEmpty(nextMoneyId))
+            if (firstSlotData.MoneyId!= secondSlotData.MoneyId || string.IsNullOrEmpty(nextMoneyId)|| firstSlotData.SlotIndex==secondSlotData.SlotIndex)
             {
                 this.SetItemReturnBack();
                 return;
