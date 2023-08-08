@@ -12,5 +12,7 @@
         public string HumIdle              { get; set; }
         public string HomeMusic            { get; set; }
         public string CompleteMergeSound   { get; set; }
+
+        public string VfxCompleteMerge { get; set; }
     }
 }

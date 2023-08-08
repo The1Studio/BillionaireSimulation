@@ -8,6 +8,7 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.Utilities;
+    using GameFoundation.Scripts.Utilities.ObjectPool;
     using GameFoundation.Scripts.Utilities.Utils;
     using Sirenix.Utilities;
     using TheOneStudio.HyperCasual.Blueprints;
@@ -30,6 +31,7 @@
         public GameObject           mergeField;
         public GameObject           topPos;
         public GameObject           misPos;
+        public GameObject           vfxSpawn;
     }
     
 
@@ -41,11 +43,13 @@
         private          int                targetMoney;
         private          int                currentMoney = 0;
         private readonly IAudioService      audioService;
-        public MergeMoneyScreenPresenter(SignalBus signalBus, MiscParamBlueprint miscParamBlueprint, CurrencyBlueprint currencyBlueprint,IAudioService audioService) : base(signalBus)
+        private          ObjectPoolManager  objectPoolManager;
+        public MergeMoneyScreenPresenter(SignalBus signalBus, MiscParamBlueprint miscParamBlueprint, CurrencyBlueprint currencyBlueprint,IAudioService audioService,ObjectPoolManager objectPoolManager) : base(signalBus)
         {
             this.miscParamBlueprint = miscParamBlueprint;
             this.currencyBlueprint  = currencyBlueprint;
             this.audioService       = audioService;
+            this.objectPoolManager  = objectPoolManager;
         }
         public override UniTask BindData()
         {
@@ -63,7 +67,7 @@
             this.View.energyObject.transform.localPosition = Vector3.zero;
             var     width   = this.View.mergeField.GetComponent<RectTransform>().rect.width;
             var     height  = this.View.mergeField.GetComponent<RectTransform>().rect.height;
-            Vector2 newSize = new Vector2(width / 4f, height /4f);
+            Vector2 newSize = new Vector2(width / 3f, height /4f);
             this.View.mergeField.GetComponent<GridLayoutGroup>().cellSize = newSize;
         }
 
@@ -80,7 +84,13 @@
             slotItemTransform.SetParent(this.View.topPos.transform);
             Sequence sequence = DOTween.Sequence();
             sequence.Append(slotItemTransform.DOMove(this.View.misPos.transform.position, 0.4f).SetEase(Ease.OutQuad));
-            sequence.Join(slotItemTransform.DOScale(new Vector3(2, 2, 2), 0.4f).SetEase(Ease.OutQuad));
+            var scaleTween = slotItemTransform.DOScale(new Vector3(2, 2, 2), 0.4f).SetEase(Ease.OutQuad);
+            sequence.Join(scaleTween);
+            scaleTween.onComplete += () =>
+            {
+                var vfx = Object.Instantiate(this.View.vfxSpawn, this.View.misPos.transform);
+                vfx.transform.localPosition = Vector3.zero;
+            };
             sequence.AppendInterval(0.7f);
             this.audioService.PlaySound(this.miscParamBlueprint.CompleteMergeSound);
             sequence.Append(slotItemTransform.DOJump(this.View.energyFill.transform.position, 5f, 1, 0.5f));
