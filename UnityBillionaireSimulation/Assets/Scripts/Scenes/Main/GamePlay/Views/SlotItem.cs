@@ -100,18 +100,11 @@
         
         private void SetItemReturnBack()
         {
-            Sequence sequence = DOTween.Sequence();
-            sequence.Append(this.transform.DORotate(new Vector3(0, 0, 10), 0.2f).SetEase(Ease.OutQuad));
-            sequence.Append(this.transform.DORotate(new Vector3(0, 0, -10), 0.2f).SetEase(Ease.OutQuad));
-            sequence.Append(this.transform.DORotate(new Vector3(0, 0, 0), 0.2f).SetEase(Ease.OutQuad));
-            sequence.onComplete += () =>
+            this.transform.DOMove(this.currentPos, 0.5f).SetEase(Ease.OutQuad).onComplete += () =>
             {
-                this.transform.DOMove(this.currentPos, 0.5f).SetEase(Ease.OutQuad).onComplete += () =>
-                {
-                    this.transform.SetParent(this.currentParent);
-                    this.rectTransform.anchoredPosition = this.currentAnchoredPos;
-                    this.image.raycastTarget            = true;
-                };
+                this.transform.SetParent(this.currentParent);
+                this.rectTransform.anchoredPosition = this.currentAnchoredPos;
+                this.image.raycastTarget            = true;
             };
 
         }
@@ -149,6 +142,14 @@
             var nextMoneyId    = this.currencyBlueprint[firstSlotData.MoneyId].MergeUpTo;
             if (firstSlotData.MoneyId!= secondSlotData.MoneyId || string.IsNullOrEmpty(nextMoneyId)|| firstSlotData.SlotIndex==secondSlotData.SlotIndex)
             {
+                if (firstSlotData.SlotIndex != secondSlotData.SlotIndex)
+                {
+                    Sequence sequence = DOTween.Sequence();
+                    sequence.Append(itemObject.transform.DORotate(new Vector3(0, 0, 15), 0.1f).SetEase(Ease.OutQuad));
+                    sequence.Append(itemObject.transform.DORotate(new Vector3(0, 0, -15), 0.1f).SetEase(Ease.OutQuad));
+                    sequence.Append(itemObject.transform.DORotate(new Vector3(0, 0, 0), 0.1f).SetEase(Ease.OutQuad));
+                    sequence.SetLoops(2, LoopType.Restart);
+                }
                 this.SetItemReturnBack();
                 return;
             }
