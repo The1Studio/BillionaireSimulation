@@ -1,3 +1,3 @@
 Level,Name,PrefabAsset,SegmentIdToTimelineIndex
 1,Set Name,lv1,gcn:1
-2,Day 1,lv2,"ld:0,mg1:0,cs:1"
+2,Day 1,lv2,"mg1:1,cs:2"
