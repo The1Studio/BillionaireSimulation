@@ -65,10 +65,10 @@
             this.View.NameText.text     = param.Name;
             this.View.NameText.fontSize = param.IsYou ? 50 : 30;
             this.View.FlagImage.sprite  = param.CountryFlag;
-            // this.View.FlagImage.gameObject.SetActive(!param.IsYou);
             this.View.RankUpObject.gameObject.SetActive(param.IsYou);
             this.View.RankUpObject.transform.localScale = Vector3.zero;
             this.View.RankingScore.text = param.RankingScore;
+            this.View.RankText.enabled = true;
             if (param.Rank <= 3)
             {
                 this.View.RankText.enabled = false;
