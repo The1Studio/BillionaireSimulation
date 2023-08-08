@@ -62,6 +62,7 @@
             this.currentMoney               = 0;
             this.View.energyFill.fillAmount = 0;
             this.View.energyObject.transform.localPosition = Vector3.zero;
+            this.View.energyObject.transform.localScale  = Vector3.one;
             var     width   = this.View.mergeField.GetComponent<RectTransform>().rect.width;
             var     height  = this.View.mergeField.GetComponent<RectTransform>().rect.height;
             Vector2 newSize = new Vector2(width / 3f, height /3f);
@@ -130,8 +131,9 @@
         private void DoEffectFullOfEnergy()
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(this.View.energyFill.transform.DOScale(new Vector3(1.3f, 1.3f, 1.3f), 0.3f).SetEase(Ease.OutQuad).SetLoops(2, LoopType.Yoyo));
-            sequence.Append(this.View.energyObject.transform.DOJump(this.View.spaceShip.transform.position, 7, 1, 0.7f).SetEase(Ease.OutQuad));
+            sequence.Append(this.View.energyFill.transform.DOScale(new Vector3(1.3f, 1.3f, 1.3f), 0.5f).SetEase(Ease.OutQuad).SetLoops(2, LoopType.Yoyo));
+            sequence.Append(this.View.energyObject.transform.DOJump(this.View.spaceShip.transform.position, 50, 1, 0.7f).SetEase(Ease.OutQuad));
+            sequence.Join(this.View.energyObject.transform.DOScale(new Vector3(0.2f, 0.2f, 0.2f), 0.7f).SetEase(Ease.OutQuad));
             sequence.onComplete += () =>
             {
                 this.audioService.PlaySound(this.miscParamBlueprint.CompleteMergeSound);
