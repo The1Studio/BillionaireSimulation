@@ -1,6 +1,8 @@
 ﻿
 
 using GameFoundation.Scripts.Utilities.LogService;
+using TheOneStudio.HyperCasual.Blueprints;
+using TheOneStudio.HyperCasual.Others;
 
 namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
 {
@@ -45,6 +47,8 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
     public class LeaderBoardScreenPresenter : UITemplateBaseScreenPresenter<LeaderboardScreenView, LeaderboardScreenModel>
     {
         private const string SFXLeaderboard = "sfx_leaderboard";
+        
+        private readonly MiscParamBlueprint miscParamBlueprint;
 
         #region inject
 
@@ -60,11 +64,12 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
 
         public LeaderBoardScreenPresenter(SignalBus signalBus, DiContainer diContainer,
             UITemplateLevelDataController uiTemplateLevelDataController,
-            UITemplateSoundServices uiTemplateSoundServices, ILogService logger) : base(signalBus, logger)
+            UITemplateSoundServices uiTemplateSoundServices, ILogService logger, MiscParamBlueprint miscParamBlueprint) : base(signalBus, logger)
         {
             this.diContainer = diContainer;
             this.uiTemplateLevelDataController = uiTemplateLevelDataController;
             this.uiTemplateSoundServices = uiTemplateSoundServices;
+            this.miscParamBlueprint = miscParamBlueprint;
         }
 
         protected override void OnViewReady()
@@ -93,18 +98,18 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
             var newRank      = 5;
             var newIndex     = indexPadding;
             var oldIndex     = (oldRank - newRank - indexPadding);
-
+            var currentRankingScore = this.miscParamBlueprint.RankingScore;
             for (var i = newRank - indexPadding; i < oldRank + indexPadding; i++)
             {
-                
-              TestList.Add(new LeaderboardItemModel(i, this.View.CountryFlags.GetRandomFlag(), NVJOBNameGen.GiveAName(Random.Range(1, 8)), false));
-
+                TestList.Add(new LeaderboardItemModel(i, this.View.CountryFlags.GetRandomFlag(), NVJOBNameGen.GiveAName(Random.Range(1, 8)), false, "$ " + currentRankingScore.ToFormattedRewardCash()));
+                currentRankingScore -= Random.Range(1, 10) * 123_123;
             }
 
             TestList[newIndex].IsYou = true;
             TestList[oldIndex].IsYou = true;
             TestList[oldIndex].CountryFlag = this.View.CountryFlags.GetLocalDeviceFlagByDeviceLang();
             TestList[oldIndex].Name = "You";
+            TestList[oldIndex].RankingScore = TestList[newIndex].RankingScore;
 
 
             this.uiTemplateSoundServices.PlaySound(SFXLeaderboard);
@@ -119,6 +124,7 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
             this.yourClone.GetComponent<CanvasGroup>().alpha = 1;
             var cloneView = this.yourClone.GetComponent<LeaderboardItemView>();
             this.View.BetterThanText.text = this.GetBetterThanText(oldRank);
+            
 
             this.animationCancelTokenSource = new CancellationTokenSource();
             //Do animation
