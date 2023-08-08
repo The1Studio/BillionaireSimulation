@@ -1,6 +1,5 @@
 ﻿namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates.MergeMoney
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
@@ -10,17 +9,13 @@
     using GameFoundation.Scripts.Utilities;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using GameFoundation.Scripts.Utilities.Utils;
-    using Sirenix.Utilities;
     using TheOneStudio.HyperCasual.Blueprints;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Signals;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Views;
     using TheOneStudio.HyperCasual.Scenes.Main.UI.Extension;
     using UnityEngine;
     using UnityEngine.UI;
-    using Utilities.Extension;
     using Zenject;
-    using Object = UnityEngine.Object;
-    using Random = UnityEngine.Random;
 
     public class MergeMoneyScreenView : BaseView
     {
@@ -83,6 +78,8 @@
             var slotItemTransform = signal.SlotController.slotItemObject.transform;
             slotItemTransform.SetParent(this.View.topPos.transform);
             Sequence sequence = DOTween.Sequence();
+            
+            //move to middle and scale
             sequence.Append(slotItemTransform.DOMove(this.View.misPos.transform.position, 0.4f).SetEase(Ease.OutQuad));
             var scaleTween = slotItemTransform.DOScale(new Vector3(2, 2, 2), 0.4f).SetEase(Ease.OutQuad);
             sequence.Join(scaleTween);
@@ -91,14 +88,20 @@
                 var vfx = Object.Instantiate(this.View.vfxSpawn, this.View.misPos.transform);
                 vfx.transform.localPosition = Vector3.zero;
             };
+            
+            //sleep and play sound
             sequence.AppendInterval(0.7f);
             this.audioService.PlaySound(this.miscParamBlueprint.CompleteMergeSound);
+            
+            
+            //move to energy field
             sequence.Append(slotItemTransform.DOJump(this.View.energyFill.transform.position, 5f, 1, 0.5f));
             sequence.Join(slotItemTransform.DOScale(new Vector3(0.3f, 0.3f, 0.3f), 0.5f).SetEase(Ease.OutQuad));
             sequence.onComplete += () =>
             {
                 this.currentMoney += this.currencyBlueprint[signal.SlotController.MoneySlotData.MoneyId].Value;
                 var newEnergyValue = this.currentMoney * 1.0f / this.targetMoney;
+                this.audioService.PlaySound(this.miscParamBlueprint.FuelSound);
                 this.View.energyFill.DoFillAmount(newEnergyValue).SetEase(Ease.OutQuad);
                 if (newEnergyValue>=1)
                 {
