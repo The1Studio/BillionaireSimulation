@@ -12,6 +12,7 @@
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using TheOneStudio.HyperCasual.Blueprints;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Signals;
+    using TheOneStudio.UITemplate.UITemplate.Models.Controllers;
     using TMPro;
     using UnityEngine;
     using UnityEngine.EventSystems;
@@ -26,16 +27,17 @@
         private          Image             image;
         public           TextMeshProUGUI   moneyValue;
 
-        public                    Vector3            offsetLeft  = new Vector3(90f, 70f, 0);
-        public                    Vector3            offsetRight = new Vector3(-90f, 70f, 0);
-        public                    Vector3            offsetTop   = new Vector3(0, 70f, 0);
-        [Inject] private          EventSystem        eventSystem;
-        [Inject] private          IGameAssets        gameAssets;
-        [Inject] private          SignalBus          signalBus;
-        [Inject] private          ObjectPoolManager  objectPoolManager;
-        [Inject] private          CurrencyBlueprint  currencyBlueprint;
-        [Inject] private readonly IAudioService      audioService;
-        [Inject] private readonly MiscParamBlueprint miscParamBlueprint;
+        public                    Vector3                         offsetLeft  = new Vector3(90f, 70f, 0);
+        public                    Vector3                         offsetRight = new Vector3(-90f, 70f, 0);
+        public                    Vector3                         offsetTop   = new Vector3(0, 70f, 0);
+        [Inject] private          EventSystem                     eventSystem;
+        [Inject] private          IGameAssets                     gameAssets;
+        [Inject] private          SignalBus                       signalBus;
+        [Inject] private          ObjectPoolManager               objectPoolManager;
+        [Inject] private          CurrencyBlueprint               currencyBlueprint;
+        [Inject] private readonly IAudioService                   audioService;
+        [Inject] private readonly MiscParamBlueprint              miscParamBlueprint;
+        [Inject] private readonly UITemplateSettingDataController uiTemplateSettingDataController;
 
         private PointerEventData pointerEventData;
         public  Transform        topPos;
@@ -165,7 +167,11 @@
             secondSequence.Join(firstItem.transform.DOMove(finalPos, 0.25f)).SetEase(Ease.OutQuad);
             secondSequence.Join(secondItem.transform.DOMove(finalPos, 0.25f)).SetEase(Ease.OutQuad);
             sequence.Append(secondSequence);
+            
+            //vibrate and play sound
+            if (this.uiTemplateSettingDataController.IsVibrationOn) Handheld.Vibrate();
             this.audioService.PlaySound(this.miscParamBlueprint.MergeSound);
+            
             sequence.onComplete += () =>
             {
                 firstItem.GetComponent<SlotItem>().UpdateData(newSlotData);
