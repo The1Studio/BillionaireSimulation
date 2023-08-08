@@ -100,12 +100,20 @@
         
         private void SetItemReturnBack()
         {
-            this.transform.DOMove(this.currentPos, 0.5f).SetEase(Ease.OutQuad).onComplete += () =>
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(this.transform.DORotate(new Vector3(0, 0, 10), 0.2f).SetEase(Ease.OutQuad));
+            sequence.Append(this.transform.DORotate(new Vector3(0, 0, -10), 0.2f).SetEase(Ease.OutQuad));
+            sequence.Append(this.transform.DORotate(new Vector3(0, 0, 0), 0.2f).SetEase(Ease.OutQuad));
+            sequence.onComplete += () =>
             {
-                this.transform.SetParent(this.currentParent);
-                this.rectTransform.anchoredPosition = this.currentAnchoredPos;
-                this.image.raycastTarget            = true;
+                this.transform.DOMove(this.currentPos, 0.5f).SetEase(Ease.OutQuad).onComplete += () =>
+                {
+                    this.transform.SetParent(this.currentParent);
+                    this.rectTransform.anchoredPosition = this.currentAnchoredPos;
+                    this.image.raycastTarget            = true;
+                };
             };
+
         }
 
 
