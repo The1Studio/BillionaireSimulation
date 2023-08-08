@@ -3,6 +3,7 @@
     using System;
     using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using TheOneStudio.HyperCasual.Blueprints;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Signals;
     using UnityEngine;
     using Zenject;
@@ -11,19 +12,14 @@
     {
         [Inject] private          ObjectPoolManager objectPoolManager;
         [Inject] private readonly SignalBus         signalBus;
+        [Inject] private readonly CurrencyBlueprint currencyBlueprint;
         public                    MoneySlotData     MoneySlotData;
         public                    Transform         topPos;
         private                   SlotItem          slotItem;
-        private                   GameObject        slotItemObject;
+        public                    GameObject        slotItemObject;
 
-        private void Awake()
-        {
-            this.GetCurrentContainer().Inject(this); 
-        }
-        private void Start()
-        {
-            this.signalBus.Subscribe<UpdateMoneyInSlotSignal>(this.UpdateSlotData);
-        }
+        private void Awake() { this.GetCurrentContainer().Inject(this); }
+        private void Start() { this.signalBus.Subscribe<UpdateMoneyInSlotSignal>(this.UpdateSlotData); }
 
         public async void SetupSlotView()
         {
@@ -42,13 +38,12 @@
             this.slotItem.slotController = this;
             this.slotItem.UpdateData(this.MoneySlotData);
         }
-        
+
         public void ResetSlot()
         {
             if (this.slotItemObject != null) Destroy(this.slotItemObject);
             this.MoneySlotData.MoneyId    = null;
             this.MoneySlotData.SlotStatus = SlotStatus.Empty;
-            
         }
         public void OverrideMoneyData(MoneySlotData moneySlotData)
         {
@@ -65,9 +60,14 @@
                 this.ResetSlot();
                 return;
             }
+
             this.MoneySlotData = signal.MoneySlotData;
             this.SetupSlotView();
-            
+            if (string.IsNullOrEmpty(this.currencyBlueprint[this.MoneySlotData.MoneyId].MergeUpTo))
+            {
+                this.signalBus.Fire(new MergeCompleteSignal(){SlotController = this});
+            }
         }
+        
     }
 }

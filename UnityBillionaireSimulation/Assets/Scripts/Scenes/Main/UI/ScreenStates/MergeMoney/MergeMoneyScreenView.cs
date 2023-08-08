@@ -4,22 +4,29 @@
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.Utilities.Utils;
     using Sirenix.Utilities;
     using TheOneStudio.HyperCasual.Blueprints;
+    using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Signals;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Views;
+    using TheOneStudio.HyperCasual.Scenes.Main.UI.Extension;
     using UnityEngine;
     using UnityEngine.UI;
+    using Utilities.Extension;
     using Zenject;
+    using Object = UnityEngine.Object;
     using Random = UnityEngine.Random;
 
     public class MergeMoneyScreenView : BaseView
     {
         public List<SlotController> listSlotControllers = new();
+        public GameObject           energyObject;
         public Image                energyFill;
         public GameObject           spaceShip;
+        public GameObject           topPos;
     }
 
     [ScreenInfo(nameof(MergeMoneyScreenView))]
@@ -27,6 +34,8 @@
     {
         private readonly MiscParamBlueprint miscParamBlueprint;
         private          CurrencyBlueprint  currencyBlueprint;
+        private          int                targetMoney;
+        private          int                currentMoney = 0;
         public MergeMoneyScreenPresenter(SignalBus signalBus, MiscParamBlueprint miscParamBlueprint, CurrencyBlueprint currencyBlueprint) : base(signalBus)
         {
             this.miscParamBlueprint = miscParamBlueprint;
@@ -35,36 +44,75 @@
         public override UniTask BindData()
         {
             this.LoadRandomMoneyDataToListSlot();
+            this.SubscribeSignal();
+            this.View.energyObject.SetActive(true);
             return UniTask.CompletedTask;
+        }
+
+        private void SubscribeSignal() { this.SignalBus.Subscribe<MergeCompleteSignal>(this.DoEffectMoneyFlyToEnergy); }
+
+        private void UnSubscribeSignal()
+        {
+            this.SignalBus.TryUnsubscribe<MergeCompleteSignal>(this.DoEffectMoneyFlyToEnergy);
+        }
+
+        private void DoEffectMoneyFlyToEnergy(MergeCompleteSignal signal)
+        {
+            signal.SlotController.slotItemObject.transform.SetParent(this.View.energyFill.transform);
+            signal.SlotController.slotItemObject.transform.DOJump(this.View.energyFill.transform.position, 5f, 1, 1f).onComplete += () =>
+            {
+                this.currentMoney += this.currencyBlueprint[signal.SlotController.MoneySlotData.MoneyId].Value;
+                var newEnergyValue = this.currentMoney * 1.0f / this.targetMoney;
+                this.View.energyFill.DoFillAmount(newEnergyValue).SetEase(Ease.OutQuad);
+                if (newEnergyValue>=1)
+                {
+                    this.DoEffectFullOfEnergy();
+                }
+                Object.Destroy(signal.SlotController.slotItemObject);
+                signal.SlotController.OverrideMoneyData(new MoneySlotData(){MoneyId = null,SlotStatus = SlotStatus.Empty});
+            };
+        }
+
+        private void DoEffectFullOfEnergy()
+        {
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(this.View.energyFill.transform.DOScale(new Vector3(1.3f, 1.3f, 1.3f), 0.3f).SetEase(Ease.OutQuad).SetLoops(2, LoopType.Yoyo));
+            sequence.Append(this.View.energyObject.transform.DOJump(this.View.spaceShip.transform.position, 7, 1, 0.7f).SetEase(Ease.OutQuad));
+            sequence.onComplete += () =>
+            {
+                this.SignalBus.Fire(new CompleteMergeGameSignal());
+                this.View.energyObject.SetActive(false);
+            };
         }
 
         private void LoadRandomMoneyDataToListSlot()
         {
-            var          firstExpectNumber = UnityEngine.Random.Range(2, 8);
+            var          firstExpectNumber = Random.Range(2, 8);
             List<string> listMoneySelected = new();
             listMoneySelected.AddRange(this.SplitMoney("Coin_4", firstExpectNumber));
-            listMoneySelected.AddRange(this.SplitMoney("Coin_4", 9-firstExpectNumber>=2? Random.Range(2,9-firstExpectNumber+1):0));
+            listMoneySelected.AddRange(this.SplitMoney("Coin_4", 9 - firstExpectNumber >= 2 ? Random.Range(2, 9 - firstExpectNumber + 1) : 0));
+            this.targetMoney = 9 - firstExpectNumber >= 2 ? 40 : 20;
             listMoneySelected.Shuffle();
             //init empty slot
             for (var i = 0; i < this.View.listSlotControllers.Count; i++)
             {
                 this.View.listSlotControllers[i].MoneySlotData = new MoneySlotData() { MoneyId = null, SlotIndex = i, SlotStatus = SlotStatus.Empty };
             }
+
             //load data to slot
             for (var i = 0; i < listMoneySelected.Count; i++)
             {
                 this.View.listSlotControllers[i].MoneySlotData = new MoneySlotData() { MoneyId = listMoneySelected[i], SlotIndex = i, SlotStatus = SlotStatus.CanMerge };
                 this.View.listSlotControllers[i].SetupSlotView();
             }
-            
         }
 
         private List<string> SplitMoney(string moneyId, int expectNumber)
         {
-            List<string> result      = new();
+            List<string> result = new();
             if (expectNumber == 0) return result;
             result.Add(moneyId);
-            while (result.Count!=expectNumber)
+            while (result.Count != expectNumber)
             {
                 var moneyId1 = result[0];
                 result.RemoveAt(0);
@@ -72,7 +120,13 @@
                 result.Add(moneyMergeToId);
                 result.Add(moneyMergeToId);
             }
+
             return result;
+        }
+        public override void Dispose()
+        {
+            base.Dispose();
+            this.UnSubscribeSignal();
         }
     }
 }

@@ -50,6 +50,8 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.Installers
             this.Container.DeclareSignal<ChangeStatusSignal>();
             this.Container.DeclareSignal<FinishCutSceneSignal>();
             this.Container.DeclareSignal<UpdateMoneyInSlotSignal>();
+            this.Container.DeclareSignal<MergeCompleteSignal>();
+            this.Container.DeclareSignal<CompleteMergeGameSignal>();
         }
 
         private void BindOther()

@@ -71,7 +71,13 @@
             };
 
             EventSystem.current.RaycastAll(this.pointerEventData, results);
-            this.HandleLogicItemSlot(results[0].gameObject);
+            var itemSlot = results.FirstOrDefault(e => e.gameObject.CompareTag("Slot")).gameObject;
+            if (itemSlot == null)
+            {
+                this.SetItemReturnBack();
+                return;
+            }
+            this.HandleLogicItemSlot(itemSlot);
             
         }
 
@@ -80,18 +86,12 @@
 
         private void HandleLogicItemSlot(GameObject slotItem)
         {
-            switch (slotItem.tag)
+            if (slotItem.GetComponent<SlotController>().MoneySlotData.IsEmpty)
             {
-                case "Slot":
-                    this.UpdateItemToNewSlot(slotItem);
-                    break;
-                case "ItemSlot":
-                    this.MergeTwoSlotItem(slotItem);
-                    break;
-                default:
-                    this.SetItemReturnBack();
-                    break;
+                this.UpdateItemToNewSlot(slotItem);
+                return;
             }
+            this.MergeTwoSlotItem(slotItem.GetComponent<SlotController>().slotItemObject);
         }
         
         private void SetItemReturnBack()
