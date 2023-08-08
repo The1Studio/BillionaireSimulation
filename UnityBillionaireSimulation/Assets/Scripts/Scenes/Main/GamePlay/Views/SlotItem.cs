@@ -7,10 +7,12 @@
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using GameFoundation.Scripts.AssetLibrary;
+    using GameFoundation.Scripts.Utilities;
     using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using TheOneStudio.HyperCasual.Blueprints;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Signals;
+    using TheOneStudio.UITemplate.UITemplate.Models.Controllers;
     using TMPro;
     using UnityEngine;
     using UnityEngine.EventSystems;
@@ -25,14 +27,17 @@
         private          Image             image;
         public           TextMeshProUGUI   moneyValue;
 
-        public           Vector3           offsetLeft  = new Vector3(90f, 70f, 0);
-        public           Vector3           offsetRight = new Vector3(-90f, 70f, 0);
-        public           Vector3           offsetTop   = new Vector3(0, 70f, 0);
-        [Inject] private EventSystem       eventSystem;
-        [Inject] private IGameAssets       gameAssets;
-        [Inject] private SignalBus         signalBus;
-        [Inject] private ObjectPoolManager objectPoolManager;
-        [Inject] private CurrencyBlueprint currencyBlueprint;
+        public                    Vector3                         offsetLeft  = new Vector3(90f, 70f, 0);
+        public                    Vector3                         offsetRight = new Vector3(-90f, 70f, 0);
+        public                    Vector3                         offsetTop   = new Vector3(0, 70f, 0);
+        [Inject] private          EventSystem                     eventSystem;
+        [Inject] private          IGameAssets                     gameAssets;
+        [Inject] private          SignalBus                       signalBus;
+        [Inject] private          ObjectPoolManager               objectPoolManager;
+        [Inject] private          CurrencyBlueprint               currencyBlueprint;
+        [Inject] private readonly IAudioService                   audioService;
+        [Inject] private readonly MiscParamBlueprint              miscParamBlueprint;
+        [Inject] private readonly UITemplateSettingDataController uiTemplateSettingDataController;
 
         private PointerEventData pointerEventData;
         public  Transform        topPos;
@@ -57,8 +62,7 @@
         }
         public void OnDrag(PointerEventData eventData)
         {
-            this.rectTransform.anchoredPosition += eventData.delta;
-            
+            this.transform.position =Vector3.Lerp(this.transform.position,Input.mousePosition+ this.offsetTop,0.6f) ;
         }
         public void OnEndDrag(PointerEventData eventData) { this.HandlePositionOfSlot(); }
 
@@ -67,7 +71,7 @@
             List<RaycastResult> results = new();
             this.pointerEventData = new PointerEventData(this.eventSystem)
             {
-                position = Input.mousePosition
+                position = this.transform.position
             };
 
             EventSystem.current.RaycastAll(this.pointerEventData, results);
@@ -102,6 +106,7 @@
                 this.rectTransform.anchoredPosition = this.currentAnchoredPos;
                 this.image.raycastTarget            = true;
             };
+
         }
 
 
@@ -137,6 +142,14 @@
             var nextMoneyId    = this.currencyBlueprint[firstSlotData.MoneyId].MergeUpTo;
             if (firstSlotData.MoneyId!= secondSlotData.MoneyId || string.IsNullOrEmpty(nextMoneyId)|| firstSlotData.SlotIndex==secondSlotData.SlotIndex)
             {
+                if (firstSlotData.SlotIndex != secondSlotData.SlotIndex)
+                {
+                    Sequence sequence = DOTween.Sequence();
+                    sequence.Append(itemObject.transform.DORotate(new Vector3(0, 0, 15), 0.1f).SetEase(Ease.OutQuad));
+                    sequence.Append(itemObject.transform.DORotate(new Vector3(0, 0, -15), 0.1f).SetEase(Ease.OutQuad));
+                    sequence.Append(itemObject.transform.DORotate(new Vector3(0, 0, 0), 0.1f).SetEase(Ease.OutQuad));
+                    sequence.SetLoops(2, LoopType.Restart);
+                }
                 this.SetItemReturnBack();
                 return;
             }
@@ -163,6 +176,10 @@
             secondSequence.Join(firstItem.transform.DOMove(finalPos, 0.25f)).SetEase(Ease.OutQuad);
             secondSequence.Join(secondItem.transform.DOMove(finalPos, 0.25f)).SetEase(Ease.OutQuad);
             sequence.Append(secondSequence);
+            
+            //vibrate and play sound
+            if (this.uiTemplateSettingDataController.IsVibrationOn) Handheld.Vibrate();
+            this.audioService.PlaySound(this.miscParamBlueprint.MergeSound);
             
             sequence.onComplete += () =>
             {

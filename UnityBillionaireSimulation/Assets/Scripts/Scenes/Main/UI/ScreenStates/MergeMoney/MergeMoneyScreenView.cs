@@ -1,24 +1,23 @@
 ﻿namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates.MergeMoney
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using GameFoundation.Scripts.Utilities;
+    using GameFoundation.Scripts.Utilities.ObjectPool;
     using GameFoundation.Scripts.Utilities.Utils;
-    using Sirenix.Utilities;
+    using Mono.CSharp;
+    using QFSW.QC;
     using TheOneStudio.HyperCasual.Blueprints;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Signals;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Views;
     using TheOneStudio.HyperCasual.Scenes.Main.UI.Extension;
     using UnityEngine;
     using UnityEngine.UI;
-    using Utilities.Extension;
     using Zenject;
-    using Object = UnityEngine.Object;
-    using Random = UnityEngine.Random;
 
     public class MergeMoneyScreenView : BaseView
     {
@@ -28,6 +27,8 @@
         public GameObject           spaceShip;
         public GameObject           mergeField;
         public GameObject           topPos;
+        public GameObject           misPos;
+        public GameObject           vfxSpawn;
     }
     
 
@@ -38,10 +39,14 @@
         private          CurrencyBlueprint  currencyBlueprint;
         private          int                targetMoney;
         private          int                currentMoney = 0;
-        public MergeMoneyScreenPresenter(SignalBus signalBus, MiscParamBlueprint miscParamBlueprint, CurrencyBlueprint currencyBlueprint) : base(signalBus)
+        private readonly IAudioService      audioService;
+        private          ObjectPoolManager  objectPoolManager;
+        public MergeMoneyScreenPresenter(SignalBus signalBus, MiscParamBlueprint miscParamBlueprint, CurrencyBlueprint currencyBlueprint,IAudioService audioService,ObjectPoolManager objectPoolManager) : base(signalBus)
         {
             this.miscParamBlueprint = miscParamBlueprint;
             this.currencyBlueprint  = currencyBlueprint;
+            this.audioService       = audioService;
+            this.objectPoolManager  = objectPoolManager;
         }
         public override UniTask BindData()
         {
@@ -59,7 +64,7 @@
             this.View.energyObject.transform.localPosition = Vector3.zero;
             var     width   = this.View.mergeField.GetComponent<RectTransform>().rect.width;
             var     height  = this.View.mergeField.GetComponent<RectTransform>().rect.height;
-            Vector2 newSize = new Vector2(width / 4f, height /4f);
+            Vector2 newSize = new Vector2(width / 3f, height /3f);
             this.View.mergeField.GetComponent<GridLayoutGroup>().cellSize = newSize;
         }
 
@@ -72,11 +77,33 @@
 
         private void DoEffectMoneyFlyToEnergy(MergeCompleteSignal signal)
         {
-            signal.SlotController.slotItemObject.transform.SetParent(this.View.energyFill.transform);
-            signal.SlotController.slotItemObject.transform.DOJump(this.View.energyFill.transform.position, 5f, 1, 1f).onComplete += () =>
+            var slotItemTransform = signal.SlotController.slotItemObject.transform;
+            slotItemTransform.SetParent(this.View.topPos.transform);
+            Sequence sequence = DOTween.Sequence();
+            
+            //move to middle and scale
+            sequence.Append(slotItemTransform.DOMove(this.View.misPos.transform.position, 0.4f).SetEase(Ease.OutQuad));
+            var scaleTween = slotItemTransform.DOScale(new Vector3(2, 2, 2), 0.4f).SetEase(Ease.OutQuad);
+            sequence.Join(scaleTween);
+            scaleTween.onComplete += () =>
+            {
+                var vfx = Object.Instantiate(this.View.vfxSpawn, this.View.misPos.transform);
+                vfx.transform.localPosition = Vector3.zero;
+            };
+            
+            //sleep and play sound
+            sequence.AppendInterval(0.7f);
+            this.audioService.PlaySound(this.miscParamBlueprint.CompleteMergeSound);
+            
+            
+            //move to energy field
+            sequence.Append(slotItemTransform.DOJump(this.View.energyFill.transform.position, 5f, 1, 0.5f));
+            sequence.Join(slotItemTransform.DOScale(new Vector3(0.3f, 0.3f, 0.3f), 0.5f).SetEase(Ease.OutQuad));
+            sequence.onComplete += () =>
             {
                 this.currentMoney += this.currencyBlueprint[signal.SlotController.MoneySlotData.MoneyId].Value;
                 var newEnergyValue = this.currentMoney * 1.0f / this.targetMoney;
+                this.audioService.PlaySound(this.miscParamBlueprint.FuelSound);
                 this.View.energyFill.DoFillAmount(newEnergyValue).SetEase(Ease.OutQuad);
                 if (newEnergyValue>=1)
                 {
@@ -85,6 +112,7 @@
                 Object.Destroy(signal.SlotController.slotItemObject);
                 signal.SlotController.OverrideMoneyData(new MoneySlotData(){MoneyId = null,SlotStatus = SlotStatus.Empty});
             };
+            
         }
 
         private void DoEffectFullOfEnergy()
@@ -94,9 +122,16 @@
             sequence.Append(this.View.energyObject.transform.DOJump(this.View.spaceShip.transform.position, 7, 1, 0.7f).SetEase(Ease.OutQuad));
             sequence.onComplete += () =>
             {
+                this.audioService.PlaySound(this.miscParamBlueprint.CompleteMergeSound);
                 this.SignalBus.Fire(new CompleteMergeGameSignal());
                 this.View.energyObject.SetActive(false);
             };
+        }
+
+        [Command("clear-data", MonoTargetType.All)]
+        public void ClearAllData()
+        {
+            Debug.Log("dmmmm");
         }
 
         private void LoadRandomMoneyDataToListSlot()

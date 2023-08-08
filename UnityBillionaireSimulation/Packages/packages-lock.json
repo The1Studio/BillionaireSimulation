@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.coffee.ui-particle": {
+      "version": "https://github.com/mob-sakai/ParticleEffectForUGUI.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a499f0c04670e6e52893799f02a30aa7b5b4db05"
+    },
     "com.cysharp.unitask": {
       "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
       "depth": 0,
@@ -20,44 +27,6 @@
       "dependencies": {
         "com.unity.addressables": "1.20.5",
         "com.unity.nuget.newtonsoft-json": "3.0.2"
-      }
-    },
-    "com.google.external-dependency-manager": {
-      "version": "file:GoogleDependency/com.google.external-dependency-manager-1.2.176.tgz",
-      "depth": 0,
-      "source": "local-tarball",
-      "dependencies": {}
-    },
-    "com.google.firebase.analytics": {
-      "version": "file:GoogleDependency/com.google.firebase.analytics-11.1.0.tgz",
-      "depth": 0,
-      "source": "local-tarball",
-      "dependencies": {
-        "com.google.firebase.app": "11.1.0"
-      }
-    },
-    "com.google.firebase.app": {
-      "version": "file:GoogleDependency/com.google.firebase.app-11.1.0.tgz",
-      "depth": 0,
-      "source": "local-tarball",
-      "dependencies": {
-        "com.google.external-dependency-manager": "1.2.176"
-      }
-    },
-    "com.google.firebase.crashlytics": {
-      "version": "file:GoogleDependency/com.google.firebase.crashlytics-11.1.0.tgz",
-      "depth": 0,
-      "source": "local-tarball",
-      "dependencies": {
-        "com.google.firebase.app": "11.1.0"
-      }
-    },
-    "com.google.firebase.remote-config": {
-      "version": "file:GoogleDependency/com.google.firebase.remote-config-11.1.0.tgz",
-      "depth": 0,
-      "source": "local-tarball",
-      "dependencies": {
-        "com.google.firebase.app": "11.1.0"
       }
     },
     "com.neuecc.unirx": {
