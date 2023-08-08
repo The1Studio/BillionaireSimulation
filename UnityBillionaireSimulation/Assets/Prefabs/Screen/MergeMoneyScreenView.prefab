@@ -747,13 +747,13 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 17
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 200.8, y: 117.24}
   m_Spacing: {x: 73.47, y: 28.2}
-  m_Constraint: 0
-  m_ConstraintCount: 2
+  m_Constraint: 1
+  m_ConstraintCount: 3
 --- !u!1 &1471881907988350484
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,6 +1881,7 @@ MonoBehaviour:
   energyObject: {fileID: 8808566047207454830}
   energyFill: {fileID: 2310030535681245332}
   spaceShip: {fileID: 3312196667430184573}
+  mergeField: {fileID: 1424805462251748953}
   topPos: {fileID: 1231649478025707711}
 --- !u!224 &2259464550225535445 stripped
 RectTransform:

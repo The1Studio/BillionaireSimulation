@@ -26,8 +26,10 @@
         public GameObject           energyObject;
         public Image                energyFill;
         public GameObject           spaceShip;
+        public GameObject           mergeField;
         public GameObject           topPos;
     }
+    
 
     [ScreenInfo(nameof(MergeMoneyScreenView))]
     public class MergeMoneyScreenPresenter : BaseScreenPresenter<MergeMoneyScreenView>
@@ -45,8 +47,20 @@
         {
             this.LoadRandomMoneyDataToListSlot();
             this.SubscribeSignal();
-            this.View.energyObject.SetActive(true);
+            this.Setup();
             return UniTask.CompletedTask;
+        }
+
+        private void Setup()
+        {
+            this.View.energyObject.SetActive(true);
+            this.currentMoney               = 0;
+            this.View.energyFill.fillAmount = 0;
+            this.View.energyObject.transform.localPosition = Vector3.zero;
+            var     width   = this.View.mergeField.GetComponent<RectTransform>().rect.width;
+            var     height  = this.View.mergeField.GetComponent<RectTransform>().rect.height;
+            Vector2 newSize = new Vector2(width / 4f, height /4f);
+            this.View.mergeField.GetComponent<GridLayoutGroup>().cellSize = newSize;
         }
 
         private void SubscribeSignal() { this.SignalBus.Subscribe<MergeCompleteSignal>(this.DoEffectMoneyFlyToEnergy); }
