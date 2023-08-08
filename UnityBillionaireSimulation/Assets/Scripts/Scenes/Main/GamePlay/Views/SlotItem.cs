@@ -57,7 +57,7 @@
         }
         public void OnDrag(PointerEventData eventData)
         {
-            this.transform.position = Input.mousePosition+ this.offsetTop;
+            this.transform.position =Vector3.Lerp(this.transform.position,Input.mousePosition+ this.offsetTop,0.6f) ;
         }
         public void OnEndDrag(PointerEventData eventData) { this.HandlePositionOfSlot(); }
 
@@ -66,7 +66,7 @@
             List<RaycastResult> results = new();
             this.pointerEventData = new PointerEventData(this.eventSystem)
             {
-                position = Input.mousePosition
+                position = this.transform.position
             };
 
             EventSystem.current.RaycastAll(this.pointerEventData, results);
