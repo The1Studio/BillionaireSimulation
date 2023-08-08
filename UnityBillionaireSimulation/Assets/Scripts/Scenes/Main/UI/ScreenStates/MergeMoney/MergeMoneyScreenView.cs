@@ -28,6 +28,7 @@
         public GameObject           spaceShip;
         public GameObject           mergeField;
         public GameObject           topPos;
+        public GameObject           misPos;
     }
     
 
@@ -72,8 +73,15 @@
 
         private void DoEffectMoneyFlyToEnergy(MergeCompleteSignal signal)
         {
-            signal.SlotController.slotItemObject.transform.SetParent(this.View.topPos.transform);
-            signal.SlotController.slotItemObject.transform.DOJump(this.View.energyFill.transform.position, 5f, 1, 1f).onComplete += () =>
+            var slotItemTransform = signal.SlotController.slotItemObject.transform;
+            slotItemTransform.SetParent(this.View.topPos.transform);
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(slotItemTransform.DOMove(this.View.misPos.transform.position, 0.4f).SetEase(Ease.OutQuad));
+            sequence.Join(slotItemTransform.DOScale(new Vector3(2, 2, 2), 0.4f).SetEase(Ease.OutQuad));
+            sequence.AppendInterval(0.7f);
+            sequence.Append(slotItemTransform.DOJump(this.View.energyFill.transform.position, 5f, 1, 0.5f));
+            sequence.Join(slotItemTransform.DOScale(new Vector3(0.3f, 0.3f, 0.3f), 0.5f).SetEase(Ease.OutQuad));
+            sequence.onComplete += () =>
             {
                 this.currentMoney += this.currencyBlueprint[signal.SlotController.MoneySlotData.MoneyId].Value;
                 var newEnergyValue = this.currentMoney * 1.0f / this.targetMoney;
@@ -85,6 +93,7 @@
                 Object.Destroy(signal.SlotController.slotItemObject);
                 signal.SlotController.OverrideMoneyData(new MoneySlotData(){MoneyId = null,SlotStatus = SlotStatus.Empty});
             };
+            
         }
 
         private void DoEffectFullOfEnergy()
