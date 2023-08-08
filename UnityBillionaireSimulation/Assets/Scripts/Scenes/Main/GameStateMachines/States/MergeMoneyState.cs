@@ -1,5 +1,6 @@
 ﻿namespace TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines.States
 {
+    using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Signals;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Systems;
     using TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines.BaseState;
     using TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines.Signals;
@@ -16,13 +17,20 @@
 
         public override async void Enter()
         {
+            this.SignalBus.Subscribe<CompleteMergeGameSignal>(this.ChangeToNextState);
             this.ScreenHandler.CloseAllScreen();
             await this.ScreenHandler.OpenScreen<MergeMoneyScreenPresenter>();
             base.Enter();
         }
 
+        private void ChangeToNextState()
+        {
+            this.NextState();
+        }
+
         public override void Exit()
         {
+            this.SignalBus.TryUnsubscribe<CompleteMergeGameSignal>(this.ChangeToNextState);
             base.Exit();
         }
     }
