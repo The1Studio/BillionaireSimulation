@@ -13,13 +13,15 @@
         public Sprite CountryFlag;
         public string Name;
         public bool   IsYou;
+        public string RankingScore;
 
-        public LeaderboardItemModel(int rank, Sprite countryFlag, string name, bool isYou)
+        public LeaderboardItemModel(int rank, Sprite countryFlag, string name, bool isYou, string rankingScore)
         {
             this.Rank        = rank;
             this.CountryFlag = countryFlag;
             this.Name        = name;
             this.IsYou       = isYou;
+            this.RankingScore = rankingScore;
         }
     }
 
@@ -34,6 +36,7 @@
 
         public Sprite OtherSpriteBg;
         public Sprite YourSpriteBg;
+        public TMP_Text RankingScore;
 
         public void SetRank(int rank) { this.RankText.text = $"#{rank}"; }
         public void SetRankUp(int rankUp) { this.RankUpText.text = rankUp.ToString(); }
@@ -57,6 +60,7 @@
             this.View.FlagImage.gameObject.SetActive(!param.IsYou);
             this.View.RankUpObject.gameObject.SetActive(param.IsYou);
             this.View.RankUpObject.transform.localScale = Vector3.zero;
+            this.View.RankingScore.text = param.RankingScore;
 
             this.View.BackGround.sprite                 = param.IsYou ? this.View.YourSpriteBg : this.View.OtherSpriteBg;
             this.View.GetComponent<CanvasGroup>().alpha = param.IsYou ? 0 : 1;
