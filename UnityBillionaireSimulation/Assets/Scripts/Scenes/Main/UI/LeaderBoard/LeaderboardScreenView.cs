@@ -33,9 +33,9 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
         public Transform YourRankerParentTransform;
         public CountryFlags CountryFlags;
         public TMP_Text BetterThanText;
-        public int MaxLevel = 200;
+        public int MaxLevel = 100;
         public int LowestRank = 68365;
-        public int HighestRank = 156;
+        public int HighestRank = 1;
         public int RankRange => this.LowestRank - this.HighestRank;
     }
     
@@ -139,14 +139,12 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
             this.animationTweenList.Add(DOTween.To(() => oldRank, setValue =>
             {
                 cloneView.SetRank(setValue);
-                this.View.BetterThanText.text = this.GetBetterThanText(setValue);
             }, newRank, scrollDuration));
             this.View.Adapter.SmoothScrollTo(newIndex - indexPadding, scrollDuration);
             await UniTask.Delay(TimeSpan.FromSeconds(scrollDuration), cancellationToken: this.animationCancelTokenSource.Token);
-            //Do scale down
-            this.animationTweenList.Add(this.yourClone.transform.DOScale(Vector3.one, scaleTime).SetEase(Ease.InOutBack));
-            // await UniTask.Delay(TimeSpan.FromSeconds(scaleTime + 2), cancellationToken: this.animationCancelTokenSource.Token);
-            // this.CloseView();
+
+            this.yourClone.GetComponent<LeaderboardItemView>().ScaleAnim();
+
         }
 
 
