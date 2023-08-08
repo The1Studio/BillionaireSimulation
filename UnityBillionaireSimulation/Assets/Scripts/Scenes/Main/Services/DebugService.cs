@@ -79,14 +79,15 @@
 
         #region Command
 
-        [Command("random-money", MonoTargetType.Single)]
+        [Command("random_money", MonoTargetType.Single)]
+        
         public void RandomMoney()
         {
             this.signalBus.Fire(new ReRandomMoneySignal());
             Debug.Log("Random money!");
         }
 
-        [Command("vi", MonoTargetType.Single)]
+        [Command("vibration", MonoTargetType.Single)]
         public void TurnOnOffVibration()
         {
             this.settingDataController.SetVibrationOnOff();
