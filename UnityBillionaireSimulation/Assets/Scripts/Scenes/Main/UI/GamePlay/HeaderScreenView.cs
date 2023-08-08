@@ -13,9 +13,8 @@
     {
     }
 
-    public class HeaderScreenView : BaseView
+    public class HeaderScreenView : TViewMono
     {
-        public Button          btnSetting;
         public TextMeshProUGUI txtTitle;
     }
 
@@ -33,14 +32,12 @@
         public override void BindData(HeaderScreenModel param)
         {
             this.signalBus.Subscribe<ResetGameplaySignal>(this.OnUpdateUI);
-            this.View.btnSetting.onClick.AddListener(this.OnClickSetting);
         }
 
         public override void Dispose()
         {
             base.Dispose();
             this.signalBus.Unsubscribe<ResetGameplaySignal>(this.OnUpdateUI);
-            this.View.btnSetting.onClick.RemoveListener(this.OnClickSetting);
         }
 
         private void OnUpdateUI()
@@ -48,7 +45,5 @@
             var mapLevelRecord = this.levelHelper.GetMapLevelRecordByLevel();
             this.View.txtTitle.text = mapLevelRecord.Name;
         }
-
-        private void OnClickSetting() { }
     }
 }
