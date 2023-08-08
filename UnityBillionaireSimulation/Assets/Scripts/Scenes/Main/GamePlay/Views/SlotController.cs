@@ -42,6 +42,7 @@
         public void ResetSlot()
         {
             if (this.slotItemObject != null) Destroy(this.slotItemObject);
+            if(this.MoneySlotData==null) return;
             this.MoneySlotData.MoneyId    = null;
             this.MoneySlotData.SlotStatus = SlotStatus.Empty;
         }

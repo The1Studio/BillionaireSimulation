@@ -68,11 +68,23 @@
             this.View.mergeField.GetComponent<GridLayoutGroup>().cellSize = newSize;
         }
 
-        private void SubscribeSignal() { this.SignalBus.Subscribe<MergeCompleteSignal>(this.DoEffectMoneyFlyToEnergy); }
+        private void SubscribeSignal()
+        {
+            this.SignalBus.Subscribe<MergeCompleteSignal>(this.DoEffectMoneyFlyToEnergy);
+            this.SignalBus.Subscribe<ReRandomMoneySignal>(this.ReRandomMoney);
+        }
+
+        private void ReRandomMoney()
+        {
+            this.Setup();
+            this.View.listSlotControllers.ForEach(e=>e.ResetSlot());
+            this.LoadRandomMoneyDataToListSlot();
+        }
 
         private void UnSubscribeSignal()
         {
             this.SignalBus.TryUnsubscribe<MergeCompleteSignal>(this.DoEffectMoneyFlyToEnergy);
+            this.SignalBus.TryUnsubscribe<ReRandomMoneySignal>(this.ReRandomMoney);
         }
 
         private void DoEffectMoneyFlyToEnergy(MergeCompleteSignal signal)

@@ -9,6 +9,7 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.Installers
     using TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines;
     using TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines.BaseState;
     using TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines.Signals;
+    using TheOneStudio.HyperCasual.Scenes.Main.Services;
     using TheOneStudio.HyperCasual.Scenes.Main.UI.GamePlay;
     using Zenject;
 
@@ -52,6 +53,7 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.Installers
             this.Container.DeclareSignal<UpdateMoneyInSlotSignal>();
             this.Container.DeclareSignal<MergeCompleteSignal>();
             this.Container.DeclareSignal<CompleteMergeGameSignal>();
+            this.Container.DeclareSignal<ReRandomMoneySignal>();
         }
 
         private void BindOther()
@@ -60,6 +62,8 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.Installers
             this.Container.BindInterfacesAndSelfTo<PlayerInputSystem>().AsCached().NonLazy();
             this.Container.Bind<MapLevelSystem>().AsCached().NonLazy();
             this.Container.Bind<SegmentBlueprintHelper>().AsCached();
+            
+            this.Container.Bind<DebugService>().FromComponentsInHierarchy().AsSingle().NonLazy();
         }
     }
 }
