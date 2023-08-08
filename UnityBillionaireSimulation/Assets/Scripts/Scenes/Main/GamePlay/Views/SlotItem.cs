@@ -57,8 +57,7 @@
         }
         public void OnDrag(PointerEventData eventData)
         {
-            this.rectTransform.anchoredPosition += eventData.delta;
-            
+            this.transform.position = Input.mousePosition+ this.offsetTop;
         }
         public void OnEndDrag(PointerEventData eventData) { this.HandlePositionOfSlot(); }
 

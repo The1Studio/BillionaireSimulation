@@ -72,7 +72,7 @@
 
         private void DoEffectMoneyFlyToEnergy(MergeCompleteSignal signal)
         {
-            signal.SlotController.slotItemObject.transform.SetParent(this.View.energyFill.transform);
+            signal.SlotController.slotItemObject.transform.SetParent(this.View.topPos.transform);
             signal.SlotController.slotItemObject.transform.DOJump(this.View.energyFill.transform.position, 5f, 1, 1f).onComplete += () =>
             {
                 this.currentMoney += this.currencyBlueprint[signal.SlotController.MoneySlotData.MoneyId].Value;
