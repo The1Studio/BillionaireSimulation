@@ -151,12 +151,18 @@
             sequence.Join(this.View.energyObject.transform.DOScale(new Vector3(0.2f, 0.2f, 0.2f), 0.7f).SetEase(Ease.OutQuad));
             sequence.onComplete += () =>
             {
-                this.audioService.PlaySound(this.miscParamBlueprint.CompleteMergeSound);
+                this.PlaySound();
                 this.SignalBus.Fire(new CompleteMergeGameSignal());
                 this.View.energyObject.SetActive(false);
             };
         }
-        
+
+        private async void PlaySound()
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(1.5f));
+            this.audioService.PlaySound(this.miscParamBlueprint.CompleteMergeSound);
+        }
+
         private async void LoadRandomMoneyDataToListSlot()
         {
             var          firstExpectNumber = Random.Range(2, 8);
