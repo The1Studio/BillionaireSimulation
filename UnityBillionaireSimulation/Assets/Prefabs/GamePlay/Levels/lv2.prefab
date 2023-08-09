@@ -659,6 +659,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a197de1a6745a18ba21848bcf710c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newSkyColor: {r: 0.016293317, g: 0, b: 0.611, a: 1}
+  newEquatorColor: {r: 0, g: 0.26723528, b: 1, a: 1}
+  skyboxNewOffset: -1
 --- !u!114 &8579121912074763139
 MonoBehaviour:
   m_ObjectHideFlags: 0

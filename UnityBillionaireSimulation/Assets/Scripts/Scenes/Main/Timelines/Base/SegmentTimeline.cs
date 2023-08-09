@@ -16,20 +16,14 @@
         private SignalBus SignalBus => this.signalBus ??= this.GetCurrentContainer().Resolve<SignalBus>();
 
         [Inject]
-        private async void Constructor(DiContainer diContainer, SignalBus signal)
-        {
-            this.signalBus = signal;
-        }
+        private async void Constructor(DiContainer diContainer, SignalBus signal) { this.signalBus = signal; }
 
-        private void OnEnable()
-        {
-            this.Director.stopped += this.OnPlayableDirectorCompleted;
-        }
+        private void OnEnable()  { this.OnEnter(); }
+        private void OnDisable() { this.OnExit(); }
 
-        private void OnDisable()
-        {
-            this.Director.stopped -= this.OnPlayableDirectorCompleted;
-        }
+        protected virtual void OnEnter() { this.Director.stopped += this.OnPlayableDirectorCompleted; }
+        
+        protected virtual void OnExit() { this.Director.stopped -= this.OnPlayableDirectorCompleted; }
 
         private void OnPlayableDirectorCompleted(PlayableDirector obj) { this.SignalBus.Fire(new FinishCutSceneSignal()); }
     }
