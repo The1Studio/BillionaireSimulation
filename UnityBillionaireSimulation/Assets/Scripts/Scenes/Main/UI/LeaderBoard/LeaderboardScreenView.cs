@@ -116,7 +116,7 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
             TestList[oldIndex].CountryFlag = this.View.CountryFlags.GetLocalDeviceFlagByDeviceLang();
             TestList[oldIndex].Name = "You";
             TestList[oldIndex].RankingScore = TestList[newIndex].RankingScore;
-            
+
             //Setup view
             await this.View.Adapter.InitItemAdapter(TestList, this.diContainer);
             this.View.Adapter.ScrollTo(oldIndex - indexPadding);
