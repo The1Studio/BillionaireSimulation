@@ -193,7 +193,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BackgroundCat: 1
-    - _BackgroundExposure: 1
+    - _BackgroundExposure: 2.15
     - _BackgroundMode: 0
     - _Banner: 1
     - _BuiltInFog: 1
@@ -236,8 +236,8 @@ Material:
     - _EnableSunMoonMask: 1
     - _EnableTwinkling: 1
     - _EqHeight: 0.419
-    - _EquatorHeight: 0.925
-    - _EquatorSmoothness: 0.604
+    - _EquatorHeight: 1
+    - _EquatorSmoothness: 0.313
     - _Exposure: 0
     - _Fade: 0
     - _Float0: -1

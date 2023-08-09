@@ -442,7 +442,7 @@ PrefabInstance:
     - target: {fileID: 2275708354846360983, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6621927900046186272, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
@@ -453,7 +453,7 @@ PrefabInstance:
     - target: {fileID: 6621927900046186272, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
       propertyPath: m_SceneBindings.Array.size
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 6621927900046186272, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
@@ -523,6 +523,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6621927900046186272, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
+      propertyPath: m_SceneBindings.Array.data[12].key
+      value: 
+      objectReference: {fileID: 9218748960222429315, guid: 828a153f8421b4c4f9a0bb015e32b750,
+        type: 2}
+    - target: {fileID: 6621927900046186272, guid: 72880539927c9124ba61e83912e51191,
+        type: 3}
       propertyPath: m_SceneBindings.Array.data[2].value
       value: 
       objectReference: {fileID: 5909526405711811435}
@@ -566,6 +572,11 @@ PrefabInstance:
       propertyPath: m_SceneBindings.Array.data[11].value
       value: 
       objectReference: {fileID: 957592478786498013}
+    - target: {fileID: 6621927900046186272, guid: 72880539927c9124ba61e83912e51191,
+        type: 3}
+      propertyPath: m_SceneBindings.Array.data[12].value
+      value: 
+      objectReference: {fileID: 8579121912074763139}
     - target: {fileID: 7701574952711809003, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -616,11 +627,69 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3946550632607470176, guid: 72880539927c9124ba61e83912e51191, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2275708354846360983, guid: 72880539927c9124ba61e83912e51191,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2588794994705549879}
+    - targetCorrespondingSourceObject: {fileID: 2275708354846360983, guid: 72880539927c9124ba61e83912e51191,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8579121912074763139}
   m_SourcePrefab: {fileID: 100100000, guid: 72880539927c9124ba61e83912e51191, type: 3}
+--- !u!1 &432221404949033301 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2275708354846360983, guid: 72880539927c9124ba61e83912e51191,
+    type: 3}
+  m_PrefabInstance: {fileID: 1903755605236987074}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2588794994705549879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432221404949033301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a197de1a6745a18ba21848bcf710c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8579121912074763139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432221404949033301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: e92ce47201c5f1d46ab18d0b0f713ed0, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2588794994705549879}
+          m_TargetAssemblyTypeName: TheOneStudio.HyperCasual.Scenes.Main.Timelines.Segments.RocketLauncherSegmentTimeline,
+            HyperCasualGame.Scripts
+          m_MethodName: ChangeSkybox
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!4 &8109296551024775977 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7701574952711809003, guid: 72880539927c9124ba61e83912e51191,
@@ -1522,7 +1591,13 @@ PrefabInstance:
     - target: {fileID: 1537826135591078241, guid: 474b5fb06ff58ff4da126339b8250023,
         type: 3}
       propertyPath: m_WarningMessage
-      value: 
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:RightFoot'\n\tTransform 'mixamorig:LeftLeg'\n\tTransform
+        'mixamorig:LeftHand'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:Spine1'\n\tTransform
+        'mixamorig:Spine2'\n\tTransform 'mixamorig:LeftHandPinky3'\n\tTransform 'mixamorig:LeftHandThumb1'\n\tTransform
+        'mixamorig:RightHandPinky3'\n\tTransform 'mixamorig:LeftHandRing2'\n\tand
+        more ..."
       objectReference: {fileID: 0}
     - target: {fileID: 1574869101877870809, guid: 474b5fb06ff58ff4da126339b8250023,
         type: 3}
