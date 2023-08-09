@@ -15,5 +15,6 @@
         public int    Value;
         public string PrefabName;
         public string MergeUpTo;
+        public string VfxMergeComplete;
     }
 }

@@ -184,6 +184,7 @@
             
             sequence.onComplete += () =>
             {
+                this.SpawnVfx(this.currencyBlueprint[newSlotData.MoneyId].VfxMergeComplete,firstItem.transform);
                 firstItem.GetComponent<SlotItem>().UpdateData(newSlotData);
                 secondItem.gameObject.SetActive(false);
                 firstItem.transform.DOMove(position, 0.2f).SetEase(Ease.OutQuad).onComplete += () =>
@@ -191,6 +192,12 @@
                     onCompleteAction?.Invoke();
                 };
             };
+        }
+
+        private async void SpawnVfx(string vfxName,Transform parent)
+        {
+            var vfxObject =await this.objectPoolManager.Spawn(vfxName, this.topPos);
+            vfxObject.transform.position = parent.transform.position;
         }
 
         #endregion
