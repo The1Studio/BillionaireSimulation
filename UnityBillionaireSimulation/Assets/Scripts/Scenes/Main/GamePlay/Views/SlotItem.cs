@@ -59,6 +59,7 @@
             this.currentParent       = this.transform.parent;
             this.currentPos          = this.transform.position;
             this.transform.SetParent(this.topPos);
+            this.signalBus.Fire(new CompleteTutorialSignal());
         }
         public void OnDrag(PointerEventData eventData)
         {

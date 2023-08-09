@@ -9,5 +9,7 @@ namespace TheOneStudio.HyperCasual.Models
 
         public string          CharacterName      { get; set; }
         public long            CurrentScore    { get; set; }
+
+        public bool IsFirstTime = true;
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates.MergeMoney
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
@@ -12,12 +13,15 @@
     using Mono.CSharp;
     using QFSW.QC;
     using TheOneStudio.HyperCasual.Blueprints;
+    using TheOneStudio.HyperCasual.Models;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Signals;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Views;
     using TheOneStudio.HyperCasual.Scenes.Main.UI.Extension;
     using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
+    using Object = UnityEngine.Object;
+    using Random = UnityEngine.Random;
 
     public class MergeMoneyScreenView : BaseView
     {
@@ -29,6 +33,7 @@
         public GameObject           topPos;
         public GameObject           misPos;
         public GameObject           vfxSpawn;
+        public GameObject           fingerObject;
     }
     
 
@@ -41,12 +46,14 @@
         private          int                currentMoney = 0;
         private readonly IAudioService      audioService;
         private          ObjectPoolManager  objectPoolManager;
-        public MergeMoneyScreenPresenter(SignalBus signalBus, MiscParamBlueprint miscParamBlueprint, CurrencyBlueprint currencyBlueprint,IAudioService audioService,ObjectPoolManager objectPoolManager) : base(signalBus)
+        private          UserLocalData      userLocalData;
+        public MergeMoneyScreenPresenter(SignalBus signalBus, MiscParamBlueprint miscParamBlueprint, CurrencyBlueprint currencyBlueprint,IAudioService audioService,ObjectPoolManager objectPoolManager,UserLocalData userLocalData) : base(signalBus)
         {
             this.miscParamBlueprint = miscParamBlueprint;
             this.currencyBlueprint  = currencyBlueprint;
             this.audioService       = audioService;
             this.objectPoolManager  = objectPoolManager;
+            this.userLocalData      = userLocalData;
         }
         public override UniTask BindData()
         {
@@ -73,6 +80,7 @@
         {
             this.SignalBus.Subscribe<MergeCompleteSignal>(this.DoEffectMoneyFlyToEnergy);
             this.SignalBus.Subscribe<ReRandomMoneySignal>(this.ReRandomMoney);
+            this.SignalBus.Subscribe<CompleteTutorialSignal>(this.CompleteTut);
         }
 
         private void ReRandomMoney()
@@ -82,10 +90,17 @@
             this.LoadRandomMoneyDataToListSlot();
         }
 
+        private void CompleteTut()
+        {
+            this.userLocalData.IsFirstTime = false;
+            this.View.fingerObject.SetActive(false);
+        }
+
         private void UnSubscribeSignal()
         {
             this.SignalBus.TryUnsubscribe<MergeCompleteSignal>(this.DoEffectMoneyFlyToEnergy);
             this.SignalBus.TryUnsubscribe<ReRandomMoneySignal>(this.ReRandomMoney);
+            this.SignalBus.TryUnsubscribe<CompleteTutorialSignal>(this.CompleteTut);
         }
 
         private void DoEffectMoneyFlyToEnergy(MergeCompleteSignal signal)
@@ -141,14 +156,8 @@
                 this.View.energyObject.SetActive(false);
             };
         }
-
-        [Command("clear-data", MonoTargetType.All)]
-        public void ClearAllData()
-        {
-            Debug.Log("dmmmm");
-        }
-
-        private void LoadRandomMoneyDataToListSlot()
+        
+        private async void LoadRandomMoneyDataToListSlot()
         {
             var          firstExpectNumber = Random.Range(2, 8);
             List<string> listMoneySelected = new();
@@ -168,6 +177,34 @@
                 this.View.listSlotControllers[i].MoneySlotData = new MoneySlotData() { MoneyId = listMoneySelected[i], SlotIndex = i, SlotStatus = SlotStatus.CanMerge };
                 this.View.listSlotControllers[i].SetupSlotView();
             }
+
+            if(!this.userLocalData.IsFirstTime) return;
+            await UniTask.Delay(TimeSpan.FromSeconds(1));
+            this.DoTutorial();
+        }
+
+        private void DoTutorial()
+        {
+            var listItemSameValue = this.FindTwoSlotSameValue();
+            if(listItemSameValue==null) return;
+            this.View.fingerObject.SetActive(true);
+            var sequence = DOTween.Sequence();
+            this.View.fingerObject.transform.position = listItemSameValue[0].slotItemObject.transform.position;
+            sequence.Append(this.View.fingerObject.transform.DOMove(listItemSameValue[1].slotItemObject.transform.position, 1.5f));
+            sequence.SetLoops(-1, LoopType.Restart);
+        }
+
+        private List<SlotController> FindTwoSlotSameValue()
+        {
+            foreach (var item in this.View.listSlotControllers)
+            {
+                var listSameValue = this.View.listSlotControllers.Where(e =>!e.MoneySlotData.IsEmpty && e.MoneySlotData.MoneyId.Equals(item.MoneySlotData.MoneyId)).ToList();
+                if (listSameValue.Count >= 2)
+                {
+                    return listSameValue.Take(2).ToList();
+                }
+            }
+            return null;
         }
 
         private List<string> SplitMoney(string moneyId, int expectNumber)
