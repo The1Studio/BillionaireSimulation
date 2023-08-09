@@ -39,10 +39,14 @@
 
         public void ActiveSegment(int index)
         {
+            if (this.IsCurrentSegmentActivated(index)) return;
+            
             this.DeActiveAllSegments();
             this.SegmentTimelines[index].gameObject.SetActive(true);
             this.SegmentTimelines[index].Director.Play();
         }
+
+        private bool IsCurrentSegmentActivated(int index) => this.SegmentTimelines[index].gameObject.activeInHierarchy;
 
         public void DeActiveAllSegments()
         {
