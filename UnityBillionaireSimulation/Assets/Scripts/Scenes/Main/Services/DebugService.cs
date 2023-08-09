@@ -19,7 +19,9 @@
         private void Start()
         {
             this.GetCurrentContainer().Inject(this);
+            
 #if DEBUG_MODE
+            this.signalBus.Subscribe<OpenToolSignal>(this.OpenCheatingTool);
             this.SpawnQuantumObject();
 #endif
         }
@@ -41,15 +43,15 @@
         {
 #if DEBUG_MODE
             
-            this.counter = this.counter > 0 ? this.counter - Time.deltaTime : 0;
-            if (this.counter == 0) this.touchCount = 0;
-
-            if (!Input.GetMouseButtonDown(0)) return;
-            this.counter = this.touchTime;
-            this.touchCount++;
-
-            if (this.touchCount != 3) return;
-            this.OpenCheatingTool();
+            // this.counter = this.counter > 0 ? this.counter - Time.deltaTime : 0;
+            // if (this.counter == 0) this.touchCount = 0;
+            //
+            // if (!Input.GetMouseButtonDown(0)) return;
+            // this.counter = this.touchTime;
+            // this.touchCount++;
+            //
+            // if (this.touchCount != 3) return;
+            // this.OpenCheatingTool();
 #endif
         }
 
