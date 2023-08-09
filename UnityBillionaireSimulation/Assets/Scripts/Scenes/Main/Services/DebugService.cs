@@ -81,7 +81,7 @@
 
         #region Command
 
-        [Command("reset-level", MonoTargetType.Single)]
+        [Command("rs", MonoTargetType.Single)]
         
         public void RandomMoney()
         {
@@ -89,7 +89,7 @@
             Debug.Log("Random money!");
         }
 
-        [Command("vibration", MonoTargetType.Single)]
+        [Command("v", MonoTargetType.Single)]
         public void TurnOnOffVibration()
         {
             this.settingDataController.SetVibrationOnOff();
