@@ -1272,7 +1272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &224642173552212536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1288,9 +1288,9 @@ RectTransform:
   - {fileID: 4887494587461655047}
   m_Father: {fileID: 224166536479716514}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1311.2859, y: -69.89}
   m_SizeDelta: {x: 150, y: 139.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222698729894052724
@@ -1445,7 +1445,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 138.4312}
+  m_SizeDelta: {x: 225, y: 138.4312}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222387952532015140
 CanvasRenderer:
@@ -1599,7 +1599,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 138.22}
+  m_SizeDelta: {x: 225, y: 138.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222876029358813684
 CanvasRenderer:
@@ -2061,7 +2061,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114324722404508366}
   m_HandleRect: {fileID: 224005418473288314}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2177,7 +2177,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000091552734}
+  m_AnchoredPosition: {x: 0, y: -0.00018310547}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &222342980113388794
@@ -2903,7 +2903,7 @@ MonoBehaviour:
     vibration : Toggle on/off vibration in game
 
 
-    random_money:
+    reset-level:
     reset and random money in merge game'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

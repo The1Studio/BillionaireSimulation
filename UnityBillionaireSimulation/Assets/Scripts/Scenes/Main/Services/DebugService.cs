@@ -81,7 +81,7 @@
 
         #region Command
 
-        [Command("random_money", MonoTargetType.Single)]
+        [Command("reset-level", MonoTargetType.Single)]
         
         public void RandomMoney()
         {
