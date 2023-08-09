@@ -21,11 +21,12 @@
 
     public class SlotItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        private          RectTransform     rectTransform;
-        private          Vector2           currentAnchoredPos;
-        private          Vector3           currentPos;
-        private          Image             image;
-        public           TextMeshProUGUI   moneyValue;
+        private RectTransform   rectTransform;
+        private Vector2         currentAnchoredPos;
+        private Vector3         currentPos;
+        private Image           image;
+        public  TextMeshProUGUI moneyValue;
+        public  bool            isMerging = false;
 
         public                    Vector3                         offsetLeft  = new Vector3(90f, 70f, 0);
         public                    Vector3                         offsetRight = new Vector3(-90f, 70f, 0);
@@ -61,10 +62,7 @@
             this.transform.SetParent(this.topPos);
             this.signalBus.Fire(new CompleteTutorialSignal());
         }
-        public void OnDrag(PointerEventData eventData)
-        {
-            this.transform.position =Vector3.Lerp(this.transform.position,Input.mousePosition+ this.offsetTop,0.6f) ;
-        }
+        public void OnDrag(PointerEventData eventData)    { this.transform.position = Vector3.Lerp(this.transform.position, Input.mousePosition + this.offsetTop, 0.6f); }
         public void OnEndDrag(PointerEventData eventData) { this.HandlePositionOfSlot(); }
 
         private void HandlePositionOfSlot()
@@ -81,13 +79,13 @@
                 this.SetItemReturnBack();
                 return;
             }
+
             var itemSlot = results.FirstOrDefault(e => e.gameObject.CompareTag("Slot")).gameObject;
             this.HandleLogicItemSlot(itemSlot);
-            
         }
 
         #endregion
-        
+
 
         private void HandleLogicItemSlot(GameObject slotItem)
         {
@@ -96,9 +94,10 @@
                 this.UpdateItemToNewSlot(slotItem);
                 return;
             }
+
             this.MergeTwoSlotItem(slotItem.GetComponent<SlotController>().slotItemObject);
         }
-        
+
         private void SetItemReturnBack()
         {
             this.transform.DOMove(this.currentPos, 0.5f).SetEase(Ease.OutQuad).onComplete += () =>
@@ -107,11 +106,11 @@
                 this.rectTransform.anchoredPosition = this.currentAnchoredPos;
                 this.image.raycastTarget            = true;
             };
-
         }
 
 
         #region UpdateViewAndData
+
         private void UpdateItemToNewSlot(GameObject slotObject)
         {
             if (!slotObject.GetComponent<SlotController>().MoneySlotData.IsEmpty)
@@ -119,6 +118,7 @@
                 this.SetItemReturnBack();
                 return;
             }
+
             slotObject.GetComponent<SlotController>().OverrideMoneyData(this.slotController.MoneySlotData);
             slotObject.GetComponent<SlotController>().SetupSlotView();
             this.slotController.ResetSlot();
@@ -130,10 +130,9 @@
             this.image.sprite    = await this.gameAssets.LoadAssetAsync<Sprite>(moneyData.CurrencyId);
             this.moneyValue.text = "$" + moneyData.Value.ToString(CultureInfo.InvariantCulture);
         }
-        
 
         #endregion
-        
+
         #region Merge
 
         private void MergeTwoSlotItem(GameObject itemObject)
@@ -141,7 +140,7 @@
             var firstSlotData  = itemObject.gameObject.GetComponent<SlotItem>().slotController.MoneySlotData;
             var secondSlotData = this.slotController.MoneySlotData;
             var nextMoneyId    = this.currencyBlueprint[firstSlotData.MoneyId].MergeUpTo;
-            if (firstSlotData.MoneyId!= secondSlotData.MoneyId || string.IsNullOrEmpty(nextMoneyId)|| firstSlotData.SlotIndex==secondSlotData.SlotIndex)
+            if (firstSlotData.MoneyId != secondSlotData.MoneyId || string.IsNullOrEmpty(nextMoneyId) || firstSlotData.SlotIndex == secondSlotData.SlotIndex)
             {
                 if (firstSlotData.SlotIndex != secondSlotData.SlotIndex)
                 {
@@ -151,16 +150,27 @@
                     sequence.Append(itemObject.transform.DORotate(new Vector3(0, 0, 0), 0.1f).SetEase(Ease.OutQuad));
                     sequence.SetLoops(2, LoopType.Restart);
                 }
+
                 this.SetItemReturnBack();
                 return;
             }
 
-            firstSlotData.MoneyId = nextMoneyId;
+            if (this.isMerging|| itemObject.gameObject.GetComponent<SlotItem>().isMerging)
+            {
+                this.SetItemReturnBack();
+                return;
+            }
+            this.isMerging                                           = true;
+            itemObject.gameObject.GetComponent<SlotItem>().isMerging = true;
+            
+            firstSlotData.MoneyId                                    = nextMoneyId;
             this.DoMerge(itemObject, this.gameObject, firstSlotData, () =>
             {
                 this.signalBus.Fire(new UpdateMoneyInSlotSignal() { MoneySlotData = firstSlotData });
-                this.signalBus.Fire(new UpdateMoneyInSlotSignal() { MoneySlotData = secondSlotData, IsReset     = true });
-                this.image.raycastTarget = true;
+                this.signalBus.Fire(new UpdateMoneyInSlotSignal() { MoneySlotData = secondSlotData, IsReset = true });
+                this.image.raycastTarget                                 = true;
+                this.isMerging                                           = false;
+                itemObject.gameObject.GetComponent<SlotItem>().isMerging = false;
             });
         }
 
@@ -177,30 +187,26 @@
             secondSequence.Join(firstItem.transform.DOMove(finalPos, 0.25f)).SetEase(Ease.OutQuad);
             secondSequence.Join(secondItem.transform.DOMove(finalPos, 0.25f)).SetEase(Ease.OutQuad);
             sequence.Append(secondSequence);
-            
+
             //vibrate and play sound
             if (this.uiTemplateSettingDataController.IsVibrationOn) Handheld.Vibrate();
             this.audioService.PlaySound(this.miscParamBlueprint.MergeSound);
-            
+
             sequence.onComplete += () =>
             {
-                this.SpawnVfx(this.currencyBlueprint[newSlotData.MoneyId].VfxMergeComplete,firstItem.transform);
+                this.SpawnVfx(this.currencyBlueprint[newSlotData.MoneyId].VfxMergeComplete, firstItem.transform);
                 firstItem.GetComponent<SlotItem>().UpdateData(newSlotData);
                 secondItem.gameObject.SetActive(false);
-                firstItem.transform.DOMove(position, 0.2f).SetEase(Ease.OutQuad).onComplete += () =>
-                {
-                    onCompleteAction?.Invoke();
-                };
+                firstItem.transform.DOMove(position, 0.2f).SetEase(Ease.OutQuad).onComplete += () => { onCompleteAction?.Invoke(); };
             };
         }
 
-        private async void SpawnVfx(string vfxName,Transform parent)
+        private async void SpawnVfx(string vfxName, Transform parent)
         {
-            var vfxObject =await this.objectPoolManager.Spawn(vfxName, this.topPos);
+            var vfxObject = await this.objectPoolManager.Spawn(vfxName, this.topPos);
             vfxObject.transform.position = parent.transform.position;
         }
 
         #endregion
-        
     }
 }
