@@ -13,7 +13,7 @@
         public  PlayableDirector Director => this.director ??= this.GetComponent<PlayableDirector>();
 
         private SignalBus signalBus;
-        private SignalBus SignalBus => this.signalBus ??= this.GetCurrentContainer().Resolve<SignalBus>();
+        protected SignalBus SignalBus => this.signalBus ??= this.GetCurrentContainer().Resolve<SignalBus>();
 
         [Inject]
         private async void Constructor(DiContainer diContainer, SignalBus signal) { this.signalBus = signal; }

@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using TheOneStudio.HyperCasual.Scenes.Main.GamePlay.Views;
+    using TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines.Signals;
     using UnityEngine;
 
     public class RocketLauncherSegmentTimeline : SegmentTimeline
@@ -54,18 +56,25 @@
 
         protected override void OnEnter()
         {
-            base.OnEnter();
             this.skyboxMat = GetSkyBox();
             
             //Store origin skybox
             this.skyColor     = this.skyboxMat.GetColor(SkyColor);
             this.equatorColor = this.skyboxMat.GetColor(EquatorColor);
             this.skyboxOffset = this.skyboxMat.GetFloat(SkyboxOffset);
+            
+            this.DelayCompleteTimeline();
         }
+
+        private async void DelayCompleteTimeline()
+        {
+            await UniTask.Delay(12000);
+            this.SignalBus.Fire(new FinishCutSceneSignal());
+        }
+
 
         protected override void OnExit()
         {
-            base.OnExit();
             this.ChangeToOriginSkybox();
             this.RemoveStars();
 
