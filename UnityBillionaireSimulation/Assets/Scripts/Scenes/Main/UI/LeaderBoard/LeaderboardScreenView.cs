@@ -107,7 +107,8 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
             var currentRankingScore = this.miscParamBlueprint.RankingScore;
             for (var i = newRank - indexPadding; i < oldRank + indexPadding; i++)
             {
-                TestList.Add(new LeaderboardItemModel(i, this.View.CountryFlags.GetRandomFlag(), NVJOBNameGen.GiveAName(Random.Range(1, 8)), false, "$ " + currentRankingScore.ToFormattedRewardCash()));
+                
+                TestList.Add(new LeaderboardItemModel(i, this.View.CountryFlags.GetRandomFlag(), i < 10 ? LeaderboardNames.names[i] : NVJOBNameGen.GiveAName(Random.Range(1, 8)), false, "$ " + currentRankingScore.ToFormattedRewardCash()));
                 currentRankingScore -= Random.Range(1, 10) * 123_123;
             }
 

@@ -1151,7 +1151,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: billionaire ranking
+  m_text: The Forbes 100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ce6fcbb024d7b5640a6a5957e9cd7820, type: 2}
   m_sharedMaterial: {fileID: -8842901490635941874, guid: ce6fcbb024d7b5640a6a5957e9cd7820,
