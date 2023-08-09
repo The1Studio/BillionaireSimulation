@@ -30,7 +30,7 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.GameStateMachines.States
         public override async void Enter()
         {
             this.audioService.StopAllPlayList();
-            this.audioService.PlayPlayList(this.miscParamBlueprint.MusicWinAndRanking);
+            this.audioService.PlaySound(this.miscParamBlueprint.MusicWinAndRanking);
             await this.ScreenHandler.OpenPopup<LeaderBoardScreenPresenter, LeaderboardScreenModel>(new LeaderboardScreenModel()
             {
                 OnOkClicked = this.OnLeaderboardOkClicked

@@ -111,10 +111,7 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
             TestList[oldIndex].CountryFlag = this.View.CountryFlags.GetLocalDeviceFlagByDeviceLang();
             TestList[oldIndex].Name = "You";
             TestList[oldIndex].RankingScore = TestList[newIndex].RankingScore;
-
-
-            this.uiTemplateSoundServices.PlaySound(SFXLeaderboard);
-
+            
             //Setup view
             await this.View.Adapter.InitItemAdapter(TestList, this.diContainer);
             this.View.Adapter.ScrollTo(oldIndex - indexPadding);
@@ -154,7 +151,6 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
         public override void Dispose()
         {
             base.Dispose();
-            this.uiTemplateSoundServices.StopSound(SFXLeaderboard);
             this.animationCancelTokenSource.Cancel();
             this.animationCancelTokenSource.Dispose();
             this.View.Adapter.StopScrollingIfAny();
