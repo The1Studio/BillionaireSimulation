@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 88ed88ab73f243f4b9c37b7300e67a8b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 84f2be6f485a5394fadebfd412f2ec74, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moneyValue: {fileID: 2352800810194534662}
+  isMerging: 0
   offsetLeft: {x: 90, y: 70, z: 0}
   offsetRight: {x: -90, y: 70, z: 0}
   offsetTop: {x: 0, y: 70, z: 0}
@@ -189,7 +190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8778684288452186990
 RectTransform:
   m_ObjectHideFlags: 0

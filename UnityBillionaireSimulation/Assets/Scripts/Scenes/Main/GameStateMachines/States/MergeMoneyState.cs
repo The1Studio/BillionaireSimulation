@@ -35,7 +35,11 @@
             base.Enter();
         }
 
-        private void ChangeToNextState() { this.NextState(); }
+        private void ChangeToNextState()
+        {
+            this.audioService.StopAllSound();
+            this.NextState();
+        }
 
         public override void Exit()
         {

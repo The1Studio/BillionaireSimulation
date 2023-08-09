@@ -37,26 +37,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 88ed88ab73f243f4b9c37b7300e67a8b
-    m_Address: Coin_4
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a098edd1eba3d3d42913b794b9fd1ed7
-    m_Address: Coin_1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: db159a1c2ab8c704893c6b7fcab34f21
-    m_Address: Coin_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: baeabb85668526f44aecd3563ab9b678
-    m_Address: Coin_3
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9f8a9ce359bd4e840b795a080e17f556
     m_Address: Item
     m_ReadOnly: 0
@@ -94,6 +74,26 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fe9b93d1fd6acb04196b941b82dc1c29
     m_Address: SparkleUI_Yellow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d6d49254869d9404e9b4abfbbd6d6646
+    m_Address: Coin_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 84f2be6f485a5394fadebfd412f2ec74
+    m_Address: Coin_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c78e30ab4267dec438d004e7a279f76a
+    m_Address: Coin_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81596d633f0270e4bbe25bba2956de7c
+    m_Address: Coin_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
