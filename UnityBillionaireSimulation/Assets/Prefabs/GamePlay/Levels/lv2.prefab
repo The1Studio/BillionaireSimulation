@@ -160,7 +160,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5350180971391416259
 Transform:
   m_ObjectHideFlags: 0
@@ -442,7 +442,7 @@ PrefabInstance:
     - target: {fileID: 2275708354846360983, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6621927900046186272, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
@@ -535,7 +535,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SceneBindings.Array.data[5].value
       value: 
-      objectReference: {fileID: 6447858049198934554}
+      objectReference: {fileID: 5909526405711811435}
     - target: {fileID: 6621927900046186272, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
       propertyPath: m_SceneBindings.Array.data[6].value
@@ -713,7 +713,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SceneBindings.Array.data[3].value
       value: 
-      objectReference: {fileID: 6447858049198934554}
+      objectReference: {fileID: 5909526405711811435}
     - target: {fileID: 6621927900046186272, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
       propertyPath: m_SceneBindings.Array.data[4].value
@@ -2957,7 +2957,7 @@ PrefabInstance:
     - target: {fileID: 1795734544364581599, guid: 3ec5d992c427ef34e83f5a8eaae6e029,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3820723262106748854, guid: 3ec5d992c427ef34e83f5a8eaae6e029,
         type: 3}
