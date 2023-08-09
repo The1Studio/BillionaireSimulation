@@ -1,5 +1,5 @@
 CurrencyId,Value,PrefabName,MergeUpTo,VfxMergeComplete
 Coin_1,1,Coin_1,Coin_2,
-Coin_2,3,Coin_2,Coin_3,SparkleUI_Green
-Coin_3,8,Coin_3,Coin_4,SparkleUI_Red
-Coin_4,20,Coin_4,,SparkleUI_Yellow
+Coin_2,3,Coin_2,Coin_3,SparkleUI_White
+Coin_3,8,Coin_3,Coin_4,SparkleUI_Yellow
+Coin_4,20,Coin_4,,SparkleUI_Blue
