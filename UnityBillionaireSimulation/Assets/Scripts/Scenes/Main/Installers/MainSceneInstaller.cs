@@ -54,6 +54,7 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.Installers
             this.Container.DeclareSignal<MergeCompleteSignal>();
             this.Container.DeclareSignal<CompleteMergeGameSignal>();
             this.Container.DeclareSignal<ReRandomMoneySignal>();
+            this.Container.DeclareSignal<CompleteTutorialSignal>();
         }
 
         private void BindOther()
