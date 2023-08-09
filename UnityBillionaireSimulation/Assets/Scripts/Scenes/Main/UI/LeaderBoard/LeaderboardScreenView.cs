@@ -29,14 +29,15 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
     public class LeaderboardScreenView : BaseView
     {
         public LeaderboardAdapter Adapter;
-        public Button CloseButton;
-        public Transform YourRankerParentTransform;
-        public CountryFlags CountryFlags;
-        public TMP_Text BetterThanText;
-        public int MaxLevel = 100;
-        public int LowestRank = 68365;
-        public int HighestRank = 1;
-        public int RankRange => this.LowestRank - this.HighestRank;
+        public Button             CloseButton;
+        public Transform          YourRankerParentTransform;
+        public CountryFlags       CountryFlags;
+        public TMP_Text           BetterThanText;
+        public int                MaxLevel    = 100;
+        public int                LowestRank  = 68365;
+        public int                HighestRank = 1;
+        public int                RankRange => this.LowestRank - this.HighestRank;
+        public AudioSource        audioSource;
     }
     
     public class LeaderboardScreenModel
@@ -83,7 +84,11 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
                                                          Mathf.Sqrt(Mathf.Sqrt(level * 1f / this.View.MaxLevel)) *
                                                          this.View.RankRange);
 
-        private void OnOkClicked() { this.Model.OnOkClicked?.Invoke(); }
+        private void OnOkClicked()
+        {
+            this.View.audioSource.Stop();
+            this.Model.OnOkClicked?.Invoke();
+        }
         
 
         private async UniTask DoAnimation()
@@ -164,6 +169,7 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
 
         public override UniTask BindData(LeaderboardScreenModel popupModel)
         {
+            this.View.audioSource.Play();
             _ = this.DoAnimation();
             return UniTask.CompletedTask;
         }
