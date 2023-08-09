@@ -54,9 +54,10 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
 
         #region inject
 
-        private readonly DiContainer diContainer;
-        private readonly UITemplateLevelDataController uiTemplateLevelDataController;
-        private readonly UITemplateSoundServices uiTemplateSoundServices;
+        private readonly DiContainer                     diContainer;
+        private readonly UITemplateLevelDataController   uiTemplateLevelDataController;
+        private readonly UITemplateSoundServices         uiTemplateSoundServices;
+        private readonly UITemplateSettingDataController uiTemplateSettingDataController;
 
         #endregion
 
@@ -170,7 +171,11 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
 
         public override UniTask BindData(LeaderboardScreenModel popupModel)
         {
-            this.View.audioSource.Play();
+            if (this.uiTemplateSettingDataController.IsSoundOn)
+            {
+                this.View.audioSource.Play();
+            }
+            
             _ = this.DoAnimation();
             return UniTask.CompletedTask;
         }
