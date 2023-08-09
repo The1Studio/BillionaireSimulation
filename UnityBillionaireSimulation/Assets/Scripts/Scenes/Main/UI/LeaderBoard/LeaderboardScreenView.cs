@@ -67,12 +67,13 @@ namespace TheOneStudio.HyperCasual.Scenes.Main.UI.ScreenStates
 
         public LeaderBoardScreenPresenter(SignalBus signalBus, DiContainer diContainer,
             UITemplateLevelDataController uiTemplateLevelDataController,
-            UITemplateSoundServices uiTemplateSoundServices, ILogService logger, MiscParamBlueprint miscParamBlueprint) : base(signalBus, logger)
+            UITemplateSoundServices uiTemplateSoundServices, ILogService logger, MiscParamBlueprint miscParamBlueprint,UITemplateSettingDataController uiTemplateSettingDataController) : base(signalBus, logger)
         {
-            this.diContainer = diContainer;
-            this.uiTemplateLevelDataController = uiTemplateLevelDataController;
-            this.uiTemplateSoundServices = uiTemplateSoundServices;
-            this.miscParamBlueprint = miscParamBlueprint;
+            this.diContainer                     = diContainer;
+            this.uiTemplateLevelDataController   = uiTemplateLevelDataController;
+            this.uiTemplateSoundServices         = uiTemplateSoundServices;
+            this.miscParamBlueprint              = miscParamBlueprint;
+            this.uiTemplateSettingDataController = uiTemplateSettingDataController;
         }
 
         protected override void OnViewReady()
