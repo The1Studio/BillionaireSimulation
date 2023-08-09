@@ -14,6 +14,7 @@
         
         public void AddStars()
         {
+            Debug.Log("Fuckkkkkkkkkkkkkkkk AddStar");
             // var skybox = this.GetCurrentContainer().Resolve<ISkyboxService>();
             // skybox.AddStars();
         }

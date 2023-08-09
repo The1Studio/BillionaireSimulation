@@ -442,7 +442,7 @@ PrefabInstance:
     - target: {fileID: 2275708354846360983, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6621927900046186272, guid: 72880539927c9124ba61e83912e51191,
         type: 3}
@@ -674,6 +674,7 @@ MonoBehaviour:
   m_Events:
     m_Signals:
     - {fileID: 11400000, guid: e92ce47201c5f1d46ab18d0b0f713ed0, type: 2}
+    - {fileID: 11400000, guid: f7525847bb748284ca2fcddfd968151b, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -681,6 +682,21 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: TheOneStudio.HyperCasual.Scenes.Main.Timelines.Segments.RocketLauncherSegmentTimeline,
             HyperCasualGame.Scripts
           m_MethodName: ChangeSkybox
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2588794994705549879}
+          m_TargetAssemblyTypeName: TheOneStudio.HyperCasual.Scenes.Main.Timelines.Segments.RocketLauncherSegmentTimeline,
+            HyperCasualGame.Scripts
+          m_MethodName: AddStars
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
